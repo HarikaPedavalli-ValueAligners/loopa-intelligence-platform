@@ -1,0 +1,2532 @@
+{
+  "title": "Loopa Intelligence \u2014 Sales Report",
+  "generated_at": "2026-04-10 15:35:11",
+  "total_niches": 20,
+  "niches": [
+    {
+      "rank": 1,
+      "industry": "Healthcare",
+      "sub_industry": "Telemedicine",
+      "sub_sub_industry": "",
+      "priority_score": 0.558,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 25.0,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 10,
+        "headcount_max": 500,
+        "description": "Telemedicine providers with 10-500 employees, offering virtual consultations and remote patient monitoring services, with a strong online presence and reliance on sensitive patient data. They require robust cybersecurity measures to protect patient information and maintain trust. These organizations often have limited IT resources and budget, making them vulnerable to cyber threats."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Data Breach",
+      "pain_points": [
+        {
+          "id": 130,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Protecting sensitive patient data from unauthorized access and breaches",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit for protecting sensitive patient data in telemedicine with its robust data encryption capabilities."
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity offers comprehensive data security and encryption solutions, making it a suitable choice for safeguarding patient data in the healthcare industry."
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus provides key management and data encryption capabilities, making it a viable option for securing sensitive patient data in telemedicine."
+            }
+          ]
+        },
+        {
+          "id": 131,
+          "pain_point_name": "Network Security",
+          "pain_point_rank": 2,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Firewall Configuration",
+          "severity_score": 8.0,
+          "growth_rate": 15.0,
+          "description": "Securing telemedicine networks from hacking and cyber attacks",
+          "vendor_matches": [
+            {
+              "vendor_name": "WatchGuard Network Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "WatchGuard provides robust network security solutions, including firewall configuration, to protect telemedicine networks from hacking and cyber attacks."
+            },
+            {
+              "vendor_name": "Fidelis Halo",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.85,
+              "notes": "Fidelis Halo offers advanced network security and threat detection capabilities, making it a strong fit for securing telemedicine networks."
+            },
+            {
+              "vendor_name": "Verizon Software Defined Perimeter",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "Verizon's Software Defined Perimeter solution provides a secure and scalable network security solution for telemedicine networks, including robust firewall configuration."
+            }
+          ]
+        },
+        {
+          "id": 132,
+          "pain_point_name": "Compliance and Regulatory",
+          "pain_point_rank": 3,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 7.0,
+          "growth_rate": 10.0,
+          "description": "Ensuring compliance with healthcare regulations such as HIPAA and GDPR",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API security and data leaks, which are critical for healthcare compliance."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides API threat detection and response, helping healthcare organizations meet regulatory requirements."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable choice as it offers API abuse and DDoS protection, which are essential for ensuring compliance with healthcare regulations."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:26.862329"
+    },
+    {
+      "rank": 2,
+      "industry": "Retail",
+      "sub_industry": "Fashion Retail",
+      "sub_sub_industry": "",
+      "priority_score": 0.551,
+      "priority_tier": 1,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 10.2,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 5000,
+        "description": "Fashion retailers with an e-commerce presence, utilizing cloud-based services and managing sensitive customer data. They prioritize protecting customer information and preventing financial loss. These organizations often have limited in-house cybersecurity expertise and rely on third-party services."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Denial of Service",
+      "pain_points": [
+        {
+          "id": 178,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Unauthorized access to sensitive customer data, including credit card information and personal details",
+          "vendor_matches": []
+        },
+        {
+          "id": 179,
+          "pain_point_name": "DDoS Attacks",
+          "pain_point_rank": 2,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Denial of Service",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Overwhelming network traffic causing website and online services to become unavailable",
+          "vendor_matches": []
+        },
+        {
+          "id": 180,
+          "pain_point_name": "Supply Chain Attacks",
+          "pain_point_rank": 3,
+          "cyber_category": "Third-Party Risk",
+          "cyber_subcategory": "Supply Chain Risk Management",
+          "severity_score": 7.0,
+          "growth_rate": 12.0,
+          "description": "Targeted attacks on third-party vendors and suppliers to gain access to sensitive data and systems",
+          "vendor_matches": []
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:37.457660"
+    },
+    {
+      "rank": 3,
+      "industry": "Healthcare",
+      "sub_industry": "Medical Devices",
+      "sub_sub_industry": "Connected Medical Devices",
+      "priority_score": 0.548,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 15.6,
+        "smb_percentage": 60.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "The ideal customer is a medical device manufacturer with a global presence, focusing on connected devices and leveraging IoT technology. They prioritize patient safety and data security, and are seeking comprehensive cybersecurity solutions to protect their products and reputation. They typically have a dedicated IT team and are looking for strategic partnerships to enhance their cybersecurity posture."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, DDoS",
+      "pain_points": [
+        {
+          "id": 127,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Unauthorized access to sensitive patient data and intellectual property",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which aligns with the data breach pain point in the healthcare industry."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it specializes in API threats and data leaks, making it a suitable solution for protecting sensitive patient data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor due to its expertise in API abuse and DDoS protection, which can help prevent unauthorized access to sensitive patient data."
+            }
+          ]
+        },
+        {
+          "id": 128,
+          "pain_point_name": "Device Hijacking",
+          "pain_point_rank": 2,
+          "cyber_category": "Device Security",
+          "cyber_subcategory": "Network Segmentation",
+          "severity_score": 8.0,
+          "growth_rate": 18.0,
+          "description": "Unintended or malicious control of medical devices, posing risk to patient safety",
+          "vendor_matches": [
+            {
+              "vendor_name": "PingIntelligence for APIs",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.0,
+              "match_score": 0.9,
+              "notes": "PingIntelligence for APIs is a strong fit due to its focus on API Behavioral Threats which can help prevent device hijacking in medical devices."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Noname Security is a good match as it provides protection against API Threats and Data Leaks, which are relevant to preventing device hijacking in the healthcare industry."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor due to its ability to prevent API Abuse and DDoS, which can help mitigate the risk of device hijacking in medical devices."
+            }
+          ]
+        },
+        {
+          "id": 129,
+          "pain_point_name": "Compliance and Regulatory",
+          "pain_point_rank": 3,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Risk Management",
+          "severity_score": 7.0,
+          "growth_rate": 12.0,
+          "description": "Meeting stringent regulatory requirements, such as HIPAA and FDA guidelines, to avoid fines and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security provides comprehensive API security and data leak protection, which is crucial for meeting regulatory requirements in the healthcare industry."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI offers advanced API threat detection and response, helping healthcare organizations comply with HIPAA and FDA guidelines."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security provides robust API abuse and DDoS protection, which is essential for ensuring the security and compliance of medical devices in the healthcare industry."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:22.806834"
+    },
+    {
+      "rank": 4,
+      "industry": "Financial Services",
+      "sub_industry": "Banking",
+      "sub_sub_industry": "Investment Banking",
+      "priority_score": 0.536,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 12.5,
+        "smb_percentage": 15.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 500,
+        "headcount_max": 10000,
+        "description": "Investment banks with global operations, high-value transactions, and sensitive client data. These organizations require robust cybersecurity measures to protect their assets and maintain client trust. They often have dedicated cybersecurity teams and invest heavily in security technologies."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Insider Threats",
+      "pain_points": [
+        {
+          "id": 136,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Unauthorized access to sensitive client data, including financial information and personal identifiable information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit as it specializes in API threats and data leaks, directly addressing the pain point of unauthorized access to sensitive client data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it focuses on API threats and data leaks, making it a suitable solution for preventing data breaches in the banking industry."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor as it protects against API abuse and DDoS, which are relevant threats in the context of data breaches and the banking industry."
+            }
+          ]
+        },
+        {
+          "id": 137,
+          "pain_point_name": "Insider Threats",
+          "pain_point_rank": 2,
+          "cyber_category": "Identity and Access Management",
+          "cyber_subcategory": "Insider Threat Detection",
+          "severity_score": 8.0,
+          "growth_rate": 15.0,
+          "description": "Malicious activities by authorized personnel, including data theft, sabotage, and unauthorized transactions",
+          "vendor_matches": [
+            {
+              "vendor_name": "FireTail",
+              "cyber_category": "Cloud Security",
+              "target_market": "Developers and Enterprises",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "FireTail's API Security and IAM capabilities make it a strong fit for detecting insider threats in the banking industry."
+            },
+            {
+              "vendor_name": "PingIntelligence for APIs",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.0,
+              "match_score": 0.8,
+              "notes": "PingIntelligence for APIs is designed to detect API behavioral threats, which can help identify insider threats in banking systems."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security's API threat detection and data leak prevention capabilities can help banks mitigate insider threats and protect sensitive data."
+            }
+          ]
+        },
+        {
+          "id": 138,
+          "pain_point_name": "Distributed Denial-of-Service (DDoS) Attacks",
+          "pain_point_rank": 3,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "DDoS Protection",
+          "severity_score": 7.0,
+          "growth_rate": 10.0,
+          "description": "Overwhelming network traffic to disrupt online services, including trading platforms and client portals",
+          "vendor_matches": [
+            {
+              "vendor_name": "Verizon Software Defined Perimeter",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "Verizon's Software Defined Perimeter provides robust DDoS protection for banking institutions"
+            },
+            {
+              "vendor_name": "WatchGuard Network Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "WatchGuard's network security solutions include DDoS protection tailored for financial services"
+            },
+            {
+              "vendor_name": "ExtraHop",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "ExtraHop's network detection and response platform helps banking institutions detect and mitigate DDoS attacks"
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:35.503421"
+    },
+    {
+      "rank": 5,
+      "industry": "Energy",
+      "sub_industry": "Oil and Gas",
+      "sub_sub_industry": "Upstream, Midstream, Downstream",
+      "priority_score": 0.519,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 12.5,
+        "smb_percentage": 25.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 500,
+        "headcount_max": 5000,
+        "description": "The ideal customer is a mid-to-large sized oil and gas company with a significant digital presence, operating in multiple regions, and with a growing concern for cybersecurity threats. They have a dedicated IT team but may lack specialized cybersecurity expertise. They are looking for comprehensive cybersecurity solutions to protect their operations and data."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Distributed Denial-of-Service (DDoS)",
+      "pain_points": [
+        {
+          "id": 163,
+          "pain_point_name": "Operational Disruption",
+          "pain_point_rank": 1,
+          "cyber_category": "Operational Technology (OT) Security",
+          "cyber_subcategory": "Industrial Control Systems (ICS) Security",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Cyber attacks causing disruption to oil and gas operations, resulting in loss of productivity and revenue",
+          "vendor_matches": [
+            {
+              "vendor_name": "PingIntelligence for APIs",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.0,
+              "match_score": 0.8,
+              "notes": "PingIntelligence for APIs is a strong fit due to its focus on API Behavioral Threats which can help prevent operational disruption in oil and gas operations"
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security is a good match as it provides protection against API Threats and Data Leaks which are critical for preventing operational disruption"
+            },
+            {
+              "vendor_name": "Check Point CloudGuard WAF",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.3,
+              "match_score": 0.6,
+              "notes": "Check Point CloudGuard WAF is a suitable option as it offers API Security and DDoS protection which can help mitigate operational disruption in oil and gas operations"
+            }
+          ]
+        },
+        {
+          "id": 164,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 2,
+          "cyber_category": "Information Security",
+          "cyber_subcategory": "Data Protection",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Unauthorized access to sensitive data, including employee and customer information, as well as intellectual property",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, directly addressing the pain point of unauthorized access to sensitive data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match as it provides protection against API threats and data leaks, which aligns with the need to prevent unauthorized access to sensitive data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor due to its expertise in API abuse and DDoS protection, which can help mitigate the risk of data breaches in the oil and gas industry."
+            }
+          ]
+        },
+        {
+          "id": 165,
+          "pain_point_name": "Compliance and Regulatory Risk",
+          "pain_point_rank": 3,
+          "cyber_category": "Cybersecurity Governance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 7.0,
+          "growth_rate": 8.0,
+          "description": "Failure to comply with relevant cybersecurity regulations and standards, resulting in fines and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security provides comprehensive API security solutions to mitigate compliance and regulatory risks in the oil and gas industry"
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.85,
+              "notes": "Salt Security offers advanced API protection to prevent abuse and ensure compliance with relevant cybersecurity regulations"
+            },
+            {
+              "vendor_name": "F5 Distributed Cloud API Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.4,
+              "match_score": 0.8,
+              "notes": "F5 Distributed Cloud API Security provides robust security solutions to protect APIs and ensure compliance with industry standards and regulations"
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:15.083453"
+    },
+    {
+      "rank": 6,
+      "industry": "E-Commerce",
+      "sub_industry": "E-Commerce Platforms",
+      "sub_sub_industry": "",
+      "priority_score": 0.512,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 14.5,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "E-commerce platforms with a strong online presence, processing sensitive customer data and transactions, requiring robust cybersecurity measures to protect against evolving threats. They typically have a dedicated IT team and invest in cybersecurity solutions. These platforms prioritize data protection and compliance with industry regulations."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, SQL Injection",
+      "pain_points": [
+        {
+          "id": 151,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Unauthorized access to sensitive customer data, including personal and financial information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit as it specifically addresses API threats and data leaks, which are key concerns for preventing data breaches in e-commerce platforms."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it focuses on API threats and data leaks, providing a comprehensive solution for protecting sensitive customer data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor as it specializes in API abuse and DDoS protection, which are critical for preventing data breaches and ensuring the security of e-commerce platforms."
+            }
+          ]
+        },
+        {
+          "id": 152,
+          "pain_point_name": "DDoS Attacks",
+          "pain_point_rank": 2,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Availability and Access Control",
+          "severity_score": 8.0,
+          "growth_rate": 15.0,
+          "description": "Overwhelming traffic aimed at disrupting online services and causing revenue loss",
+          "vendor_matches": [
+            {
+              "vendor_name": "Verizon Software Defined Perimeter",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "Verizon Software Defined Perimeter provides a robust security solution to protect against DDoS attacks"
+            },
+            {
+              "vendor_name": "WatchGuard Network Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "WatchGuard Network Security offers a comprehensive security platform to prevent DDoS attacks"
+            },
+            {
+              "vendor_name": "Barracuda CloudGen Access",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Barracuda CloudGen Access provides a cloud-based security solution to protect against DDoS attacks"
+            }
+          ]
+        },
+        {
+          "id": 153,
+          "pain_point_name": "Payment Card Skimming",
+          "pain_point_rank": 3,
+          "cyber_category": "Application Security",
+          "cyber_subcategory": "Secure Payment Processing",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Malicious code injected into payment processing systems to steal sensitive card information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Hdiv Protection (RASP)",
+              "cyber_category": "Application Security",
+              "target_market": "Enterprises, IT security teams, DevOps.",
+              "customer_rating": 4.2,
+              "match_score": 0.9,
+              "notes": "Hdiv Protection is a strong fit due to its Runtime Application Protection capabilities, which can help prevent payment card skimming attacks."
+            },
+            {
+              "vendor_name": "Falcon - Runtime Application Protection",
+              "cyber_category": "Application Security",
+              "target_market": "Enterprises, developers, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.8,
+              "notes": "Falcon's Runtime Application Protection can effectively detect and prevent malicious code injections, making it a suitable solution for payment card skimming protection."
+            },
+            {
+              "vendor_name": "Sparrow RASP",
+              "cyber_category": "Application Security",
+              "target_market": "Enterprises, software developers, DevSecOps teams.",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Sparrow RASP's runtime application protection capabilities can help secure payment processing systems against skimming attacks, making it a viable option."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:57.480722"
+    },
+    {
+      "rank": 7,
+      "industry": "Financial Services",
+      "sub_industry": "Fintech",
+      "sub_sub_industry": "Digital Payments",
+      "priority_score": 0.509,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 15.6,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized fintech company that provides digital payment solutions to consumers and businesses. They have a strong online presence and handle sensitive financial information. They are looking for robust cybersecurity solutions to protect their customers' data and prevent financial losses."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Data Breach",
+      "pain_points": [
+        {
+          "id": 142,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Unauthorized access to sensitive customer data, resulting in financial losses and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, directly addressing the pain point of data breaches in fintech."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match as it specializes in API threats and data leaks, making it a suitable solution for preventing data breaches in fintech."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a viable option because it protects against API abuse and DDoS, which can contribute to data breaches, aligning with the needs of fintech companies."
+            }
+          ]
+        },
+        {
+          "id": 143,
+          "pain_point_name": "Phishing Attacks",
+          "pain_point_rank": 2,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Email Security",
+          "severity_score": 8.0,
+          "growth_rate": 15.0,
+          "description": "Social engineering attacks that trick customers into divulging sensitive information, leading to financial losses and account takeovers",
+          "vendor_matches": [
+            {
+              "vendor_name": "Barracuda CloudGen Access",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "Barracuda CloudGen Access provides advanced email security features to protect against phishing attacks"
+            },
+            {
+              "vendor_name": "AlienVault USM (from AT&T Cybersecurity)",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "AlienVault USM offers threat detection and response capabilities to help prevent phishing attacks"
+            },
+            {
+              "vendor_name": "WatchGuard Network Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "WatchGuard Network Security provides a range of security solutions, including email security to combat phishing attacks"
+            }
+          ]
+        },
+        {
+          "id": 144,
+          "pain_point_name": "Ransomware Attacks",
+          "pain_point_rank": 3,
+          "cyber_category": "Endpoint Security",
+          "cyber_subcategory": "Malware Protection",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Malicious software that encrypts sensitive data and demands payment in exchange for the decryption key, resulting in downtime and financial losses",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are relevant to preventing ransomware attacks."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it protects against API abuse and DDoS, which can help prevent ransomware attacks."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor as it provides protection against API threats and data leaks, which can help mitigate ransomware attacks."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:44.131359"
+    },
+    {
+      "rank": 8,
+      "industry": "Financial Services",
+      "sub_industry": "Insurance",
+      "sub_sub_industry": "Property and Casualty",
+      "priority_score": 0.506,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 12.5,
+        "smb_percentage": 30.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 100,
+        "headcount_max": 10000,
+        "description": "The ideal customer is a mid-sized insurance company with a growing online presence, handling sensitive customer data and requiring robust cybersecurity measures to protect against evolving threats. They have a dedicated IT team but may lack specialized cybersecurity expertise. They are looking for comprehensive cybersecurity solutions to safeguard their business and reputation."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Data Breach",
+      "pain_points": [
+        {
+          "id": 139,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Ensuring the confidentiality, integrity, and availability of sensitive customer data",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit for data protection in the insurance industry due to its focus on data encryption and security"
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity is a good match for data protection in the insurance industry due to its emphasis on data security, encryption, and privacy"
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus is a suitable vendor for data protection in the insurance industry due to its key management and data encryption capabilities"
+            }
+          ]
+        },
+        {
+          "id": 140,
+          "pain_point_name": "Compliance and Regulatory",
+          "pain_point_rank": 2,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Meeting stringent regulatory requirements, such as GDPR and HIPAA, to avoid fines and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical for regulatory compliance in the insurance industry."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, helping insurance companies meet regulatory requirements."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor as it provides API threat detection and data leak protection, which are essential for compliance and regulatory needs in the insurance sector."
+            }
+          ]
+        },
+        {
+          "id": 141,
+          "pain_point_name": "Cyber Threat Detection",
+          "pain_point_rank": 3,
+          "cyber_category": "Threat Detection",
+          "cyber_subcategory": "Incident Response",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Identifying and responding to advanced cyber threats, such as phishing and ransomware, in a timely and effective manner",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical for insurance companies to detect and respond to advanced cyber threats."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides AI-powered API threat detection and response capabilities, which can help insurance companies identify and mitigate cyber threats."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor due to its expertise in API abuse and DDoS protection, which are essential for insurance companies to safeguard against cyber threats and maintain incident response capabilities."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:39.965169"
+    },
+    {
+      "rank": 9,
+      "industry": "Manufacturing",
+      "sub_industry": "Contract Manufacturing",
+      "sub_sub_industry": "Electronics and Mechanical Components",
+      "priority_score": 0.491,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 5.2,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "Contract manufacturers with 50-1000 employees, operating in the electronics and mechanical components sector, with a moderate level of digitalization and limited cybersecurity resources. They often have multiple clients and partners, and rely on just-in-time production and supply chain management. Their cybersecurity needs are focused on protecting intellectual property, preventing production downtime, and ensuring compliance with industry regulations."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Intellectual Property Theft",
+      "pain_points": [
+        {
+          "id": 25,
+          "pain_point_name": "Intellectual Property Theft",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "IP Theft",
+          "severity_score": 8.0,
+          "growth_rate": 10.5,
+          "description": "Contract manufacturers are at risk of intellectual property theft due to the sensitive nature of their designs and production processes. Cyber attackers may target their systems to steal valuable IP, compromising their competitive advantage.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to preventing intellectual property theft in contract manufacturing."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it specializes in API security and detecting data leaks, making it suitable for protecting contract manufacturers' sensitive IP."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor as it provides protection against API abuse and DDoS attacks, which can help prevent intellectual property theft in the contract manufacturing industry."
+            }
+          ]
+        },
+        {
+          "id": 26,
+          "pain_point_name": "Production Downtime",
+          "pain_point_rank": 2,
+          "cyber_category": "Operational Disruption",
+          "cyber_subcategory": "Ransomware",
+          "severity_score": 9.0,
+          "growth_rate": 12.1,
+          "description": "Contract manufacturers rely on just-in-time production and supply chain management, making them vulnerable to production downtime caused by cyber attacks. A single incident can result in significant losses and damage to their reputation.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to preventing production downtime in contract manufacturing."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it protects against API abuse and DDoS, which can cause significant production downtime in contract manufacturing."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor due to its ability to detect API threats and data leaks, helping to prevent operational disruptions in contract manufacturing."
+            }
+          ]
+        },
+        {
+          "id": 27,
+          "pain_point_name": "Supply Chain Risk",
+          "pain_point_rank": 3,
+          "cyber_category": "Third-Party Risk",
+          "cyber_subcategory": "Supply Chain Risk",
+          "severity_score": 7.0,
+          "growth_rate": 8.5,
+          "description": "Contract manufacturers often have complex supply chains, which can increase their cybersecurity risk. A single vulnerable supplier can compromise the entire chain, making it essential for contract manufacturers to assess and mitigate these risks.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical in supply chain risk management."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides API security and threat detection capabilities, helping to identify and mitigate supply chain risks."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor as it offers API abuse and DDoS protection, which can help contract manufacturers secure their supply chains against cyber threats."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 13:18:36.646412"
+    },
+    {
+      "rank": 10,
+      "industry": "E-Commerce",
+      "sub_industry": "Direct-to-Consumer Brands",
+      "sub_sub_industry": "Digital Native Vertical Brands",
+      "priority_score": 0.48,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 7.0,
+        "cagr": 15.6,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "The ideal customer is a digitally native, direct-to-consumer brand with a strong online presence, typically with 50-1000 employees and $10-500 million in annual revenue. They prioritize customer experience and rely heavily on e-commerce platforms. These companies often have limited in-house cybersecurity expertise and rely on third-party services to protect their online operations."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Credential Stuffing",
+      "pain_points": [
+        {
+          "id": 154,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 20.0,
+          "description": "Unauthorized access to sensitive customer data, such as credit card information or personal identifiable information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit because it specifically addresses API threats and data leaks, which are key concerns for preventing data breaches in e-commerce."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides protection against API threats and data leaks, making it suitable for securing sensitive customer data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor because it offers protection against API abuse and DDoS attacks, which can help prevent unauthorized access to sensitive customer data."
+            }
+          ]
+        },
+        {
+          "id": 155,
+          "pain_point_name": "Website Defacement",
+          "pain_point_rank": 2,
+          "cyber_category": "Web Application Security",
+          "cyber_subcategory": "Content Security",
+          "severity_score": 7.0,
+          "growth_rate": 15.0,
+          "description": "Malicious alteration of a company's website, often resulting in reputational damage and loss of customer trust",
+          "vendor_matches": [
+            {
+              "vendor_name": "Reblaze",
+              "cyber_category": "Web Security Software",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "Reblaze is a web security software that can help prevent website defacement by protecting against various web-based threats."
+            },
+            {
+              "vendor_name": "Edgescan",
+              "cyber_category": "Web Security Software",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "Edgescan is a web security software that provides vulnerability management and can help prevent website defacement by identifying and remediating vulnerabilities."
+            },
+            {
+              "vendor_name": "Beagle Security",
+              "cyber_category": "Web Security Software",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Beagle Security is a web security software that provides automated vulnerability scanning and can help prevent website defacement by identifying potential security threats."
+            }
+          ]
+        },
+        {
+          "id": 156,
+          "pain_point_name": "Payment Card Skimming",
+          "pain_point_rank": 3,
+          "cyber_category": "Payment Card Industry Security",
+          "cyber_subcategory": "Payment Card Skimming",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Malicious code injected into a company's e-commerce platform to steal sensitive payment information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Data Theorem",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Data Theorem is a strong fit due to its focus on injection threats, which aligns with the payment card skimming pain point."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it specializes in API abuse, which includes protection against payment card skimming attacks."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security is a suitable vendor due to its expertise in API threats and data leaks, which are relevant to preventing payment card skimming."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:01.777774"
+    },
+    {
+      "rank": 11,
+      "industry": "Professional Services",
+      "sub_industry": "Legal Services",
+      "sub_sub_industry": "Law Firms",
+      "priority_score": 0.479,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 8.2,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 10,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized law firm with 10-500 employees, handling sensitive client data and requiring robust cybersecurity measures to protect against data breaches and cyber attacks. They have a moderate level of digitalization and are looking to improve their cybersecurity posture. They are likely to have a dedicated IT team but may lack specialized cybersecurity expertise."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Data Breach",
+      "pain_points": [
+        {
+          "id": 169,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Protection",
+          "severity_score": 9.0,
+          "growth_rate": 10.5,
+          "description": "Law firms handle sensitive client data, making data protection a top priority. They need to ensure that their data is secure and compliant with regulations such as GDPR and HIPAA.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Securiti",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, compliance officers, security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "Securiti is a strong fit due to its focus on data privacy, security, and compliance, which are crucial for law firms handling sensitive client data."
+            },
+            {
+              "vendor_name": "Privacera Data Security Platform",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data governance teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.8,
+              "notes": "Privacera's data security and privacy capabilities make it a suitable choice for law firms needing to protect sensitive client information."
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity's data security, encryption, and privacy features align well with the data protection needs of law firms, particularly in regards to compliance with regulations like GDPR and HIPAA."
+            }
+          ]
+        },
+        {
+          "id": 170,
+          "pain_point_name": "Email Security",
+          "pain_point_rank": 2,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Email Security",
+          "severity_score": 8.0,
+          "growth_rate": 8.1,
+          "description": "Law firms are frequent targets of phishing and spam attacks, which can lead to data breaches and malware infections. They need to ensure that their email systems are secure and protected against these types of threats.",
+          "vendor_matches": [
+            {
+              "vendor_name": "MXToolbox",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "MXToolbox provides email security solutions to protect against phishing and spam attacks."
+            },
+            {
+              "vendor_name": "AlienVault USM (from AT&T Cybersecurity)",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "AlienVault USM offers threat detection and response capabilities to secure email systems."
+            },
+            {
+              "vendor_name": "WatchGuard Network Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "WatchGuard Network Security provides a range of email security solutions to prevent data breaches and malware infections."
+            }
+          ]
+        },
+        {
+          "id": 171,
+          "pain_point_name": "Incident Response",
+          "pain_point_rank": 3,
+          "cyber_category": "Incident Response",
+          "cyber_subcategory": "Incident Response Planning",
+          "severity_score": 7.0,
+          "growth_rate": 9.2,
+          "description": "Law firms need to have an incident response plan in place to quickly respond to cyber attacks and minimize downtime. They need to ensure that they can quickly detect and respond to security incidents to protect their data and reputation.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical for law firms to protect sensitive client data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match as it provides API security and threat detection capabilities, helping law firms respond to security incidents quickly."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable choice because it offers protection against API abuse and DDoS attacks, which are essential for law firms to maintain their reputation and minimize downtime."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:24.093562"
+    },
+    {
+      "rank": 12,
+      "industry": "Professional Services",
+      "sub_industry": "Accounting Firms",
+      "sub_sub_industry": "",
+      "priority_score": 0.477,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 8.2,
+        "smb_percentage": 85.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 10,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized accounting firm with 10-500 employees, providing tax, audit, and consulting services to individuals and businesses. They have a moderate level of digitalization and are looking to improve their cybersecurity posture. They are concerned about protecting sensitive client data and maintaining confidentiality, integrity, and availability of their systems and data."
+      },
+      "common_cyber_risks": "Phishing, Ransomware, Business Email Compromise",
+      "pain_points": [
+        {
+          "id": 172,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Unauthorized access to sensitive client data, including financial information and personal identifiable information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit because it specializes in API threats and data leaks, which aligns with the accounting firm's need to protect sensitive client data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it focuses on API threats and data leaks, making it a suitable solution for preventing unauthorized access to client data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a viable option because it protects against API abuse and DDoS threats, which can help accounting firms safeguard their clients' sensitive information."
+            }
+          ]
+        },
+        {
+          "id": 173,
+          "pain_point_name": "Ransomware Attack",
+          "pain_point_rank": 2,
+          "cyber_category": "Threat Protection",
+          "cyber_subcategory": "Malware Protection",
+          "severity_score": 8.0,
+          "growth_rate": 20.0,
+          "description": "Malicious software that encrypts files and demands payment in exchange for the decryption key, causing disruption to business operations",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit as it specializes in API Threats and Data Leaks, which can help prevent ransomware attacks."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it protects against API Abuse and DDoS, which can help mitigate ransomware attacks."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor as it detects API Threats and Data Leaks, which can aid in preventing ransomware attacks."
+            }
+          ]
+        },
+        {
+          "id": 174,
+          "pain_point_name": "Insider Threat",
+          "pain_point_rank": 3,
+          "cyber_category": "Identity and Access Management",
+          "cyber_subcategory": "Insider Threat Detection",
+          "severity_score": 7.0,
+          "growth_rate": 10.0,
+          "description": "Unauthorized or malicious actions by employees, contractors, or third-party vendors, including data theft, sabotage, or other malicious activities",
+          "vendor_matches": [
+            {
+              "vendor_name": "FireTail",
+              "cyber_category": "Cloud Security",
+              "target_market": "Developers and Enterprises",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "FireTail's API Security and IAM capabilities make it a strong fit for detecting insider threats in accounting firms."
+            },
+            {
+              "vendor_name": "PingIntelligence for APIs",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.0,
+              "match_score": 0.8,
+              "notes": "PingIntelligence for APIs is designed to detect API behavioral threats, which can help identify insider threats in accounting firms."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security's API threat detection capabilities can help accounting firms identify and prevent insider threats, including data leaks."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:28.538798"
+    },
+    {
+      "rank": 13,
+      "industry": "Manufacturing",
+      "sub_industry": "Contract Manufacturing",
+      "sub_sub_industry": "",
+      "priority_score": 0.476,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 5.2,
+        "smb_percentage": 62.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "A mid-sized contract manufacturer with multiple facilities, relying heavily on industrial control systems and supply chain management software. They have a dedicated IT team but limited cybersecurity expertise. Their primary goal is to protect sensitive production data and maintain operational continuity."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Intellectual Property Theft",
+      "pain_points": [
+        {
+          "id": 85,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Loss Prevention",
+          "severity_score": 8.0,
+          "growth_rate": 10.5,
+          "description": "Unauthorized access to sensitive production data, including intellectual property and customer information",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, directly addressing the pain point of unauthorized access to sensitive production data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it specializes in API threats and data leaks, which aligns with the need to protect intellectual property and customer information."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor as it focuses on API abuse and DDoS, which can help prevent unauthorized access to sensitive data in the manufacturing industry."
+            }
+          ]
+        },
+        {
+          "id": 86,
+          "pain_point_name": "Operational Disruption",
+          "pain_point_rank": 2,
+          "cyber_category": "Operational Technology",
+          "cyber_subcategory": "Industrial Control Systems",
+          "severity_score": 9.0,
+          "growth_rate": 12.1,
+          "description": "Cyber attacks on industrial control systems, causing production downtime and supply chain disruptions",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical in preventing operational disruption in industrial control systems."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, which can help prevent cyber attacks on industrial control systems."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor due to its expertise in API threats and data leaks, making it a viable option for protecting industrial control systems from cyber attacks."
+            }
+          ]
+        },
+        {
+          "id": 87,
+          "pain_point_name": "Supply Chain Risk",
+          "pain_point_rank": 3,
+          "cyber_category": "Third-Party Risk",
+          "cyber_subcategory": "Supply Chain Risk Management",
+          "severity_score": 7.0,
+          "growth_rate": 8.5,
+          "description": "Cyber threats to suppliers and third-party vendors, potentially compromising the security of the entire supply chain",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to supply chain risk management."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides API threat detection and response capabilities, helping to mitigate supply chain risk."
+            },
+            {
+              "vendor_name": "PingIntelligence for APIs",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.0,
+              "match_score": 0.7,
+              "notes": "PingIntelligence for APIs is a suitable choice as it offers API behavioral threat detection, which can help identify and prevent supply chain attacks."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 13:27:41.881823"
+    },
+    {
+      "rank": 14,
+      "industry": "Logistics",
+      "sub_industry": "Last Mile Delivery",
+      "sub_sub_industry": "E-commerce and Retail",
+      "priority_score": 0.471,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 12.5,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized logistics company specializing in last mile delivery, with a strong online presence and a growing demand for digital services. They have a dedicated IT team but lack specialized cybersecurity expertise. They are looking to protect their customer data and prevent disruptions to their operations."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Data Breach",
+      "pain_points": [
+        {
+          "id": 100,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Protecting customer data and preventing data breaches",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit for data protection in logistics, specifically for last mile delivery, as it provides robust data encryption capabilities."
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity offers a comprehensive data security platform that includes encryption, making it a suitable choice for protecting customer data in the logistics industry."
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus provides key management and data encryption capabilities, making it a viable option for logistics companies looking to secure their data."
+            }
+          ]
+        },
+        {
+          "id": 101,
+          "pain_point_name": "Supply Chain Disruptions",
+          "pain_point_rank": 2,
+          "cyber_category": "Operational Security",
+          "cyber_subcategory": "Incident Response",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Preventing disruptions to the supply chain due to cyber attacks",
+          "vendor_matches": [
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.9,
+              "notes": "Traceable AI is a strong fit due to its focus on API threats and data leaks, which are critical in preventing supply chain disruptions."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it specializes in API abuse and DDoS protection, which can help mitigate supply chain disruptions."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security is a suitable vendor due to its expertise in API threats and data leaks, making it a viable option for preventing supply chain disruptions."
+            }
+          ]
+        },
+        {
+          "id": 102,
+          "pain_point_name": "Compliance and Regulatory",
+          "pain_point_rank": 3,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 7.0,
+          "growth_rate": 8.0,
+          "description": "Ensuring compliance with regulations such as GDPR and CCPA",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security provides comprehensive API security solutions to ensure compliance with regulations such as GDPR and CCPA."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security offers API protection solutions to prevent data breaches and ensure regulatory compliance for logistics companies."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI provides AI-powered API security solutions to detect and prevent threats, ensuring compliance with regulatory requirements for last mile delivery companies."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 13:28:04.254739"
+    },
+    {
+      "rank": 15,
+      "industry": "Logistics",
+      "sub_industry": "Last Mile Delivery",
+      "sub_sub_industry": "E-commerce and Grocery Delivery",
+      "priority_score": 0.464,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 12.5,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized last mile delivery company with 50-500 employees, operating in the e-commerce and grocery delivery space, with a growing online presence and a need for robust cybersecurity measures to protect customer data and prevent service disruptions. They have a moderate level of digitalization and are looking to invest in cybersecurity solutions to mitigate risks. They are likely to have a dedicated IT team but may lack specialized cybersecurity expertise."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Data Breach",
+      "pain_points": [
+        {
+          "id": 160,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Protecting customer data, including personal and financial information, from unauthorized access and breaches",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit for protecting customer data, including personal and financial information, from unauthorized access and breaches."
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity provides robust data security and encryption capabilities to safeguard sensitive customer information."
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus offers key management and data encryption features to ensure the secure protection of customer data."
+            }
+          ]
+        },
+        {
+          "id": 161,
+          "pain_point_name": "Supply Chain Disruptions",
+          "pain_point_rank": 2,
+          "cyber_category": "Operational Security",
+          "cyber_subcategory": "Supply Chain Risk Management",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Preventing and mitigating the impact of cyber attacks on supply chain operations, including delivery disruptions and inventory management",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to preventing supply chain disruptions in last mile delivery logistics."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it specializes in API abuse and DDoS protection, which can help mitigate the impact of cyber attacks on supply chain operations."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor due to its expertise in API threats and data leaks, making it a valuable solution for preventing and mitigating supply chain disruptions in logistics."
+            }
+          ]
+        },
+        {
+          "id": 162,
+          "pain_point_name": "Reputation and Brand Protection",
+          "pain_point_rank": 3,
+          "cyber_category": "Reputation Security",
+          "cyber_subcategory": "Crisis Management",
+          "severity_score": 7.0,
+          "growth_rate": 8.0,
+          "description": "Protecting the company's reputation and brand from the impact of cyber attacks, including social media and customer trust",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to reputation and brand protection in the logistics industry."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, which can help mitigate reputation-damaging cyber attacks."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor due to its expertise in API threats and data leaks, which can help protect the company's reputation and brand from cyber attacks."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:10.555125"
+    },
+    {
+      "rank": 16,
+      "industry": "Healthcare",
+      "sub_industry": "Hospitals",
+      "sub_sub_industry": "Emergency Services",
+      "priority_score": 0.458,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 12.5,
+        "smb_percentage": 60.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 500,
+        "headcount_max": 5000,
+        "description": "Emergency services within hospitals are the ideal customer profile, requiring robust cybersecurity solutions to protect sensitive patient data and maintain operational continuity. These organizations typically have a large number of employees and a significant budget for cybersecurity. They are often subject to strict regulatory requirements, making compliance a top priority."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Data Breach",
+      "pain_points": [
+        {
+          "id": 124,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Protecting sensitive patient data from cyber threats and maintaining confidentiality, integrity, and availability",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit as it specifically addresses data encryption and security for enterprises, including healthcare organizations."
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity provides data security and encryption solutions that can help healthcare organizations protect sensitive patient data."
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus offers key management and data encryption capabilities that can help hospitals secure their sensitive data."
+            }
+          ]
+        },
+        {
+          "id": 125,
+          "pain_point_name": "System Downtime",
+          "pain_point_rank": 2,
+          "cyber_category": "System Availability",
+          "cyber_subcategory": "Disaster Recovery",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Minimizing downtime and ensuring continuous operation of critical systems, such as electronic health records and medical devices",
+          "vendor_matches": [
+            {
+              "vendor_name": "F5 Distributed Cloud API Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.4,
+              "match_score": 0.9,
+              "notes": "F5 Distributed Cloud API Security provides robust protection against API threats and DDoS attacks, ensuring high system availability for healthcare systems"
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Noname Security offers comprehensive API security and data leak protection, which is crucial for minimizing downtime in healthcare systems"
+            },
+            {
+              "vendor_name": "Check Point CloudGuard WAF",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.3,
+              "match_score": 0.7,
+              "notes": "Check Point CloudGuard WAF provides robust API security and DDoS protection, helping to ensure continuous operation of critical healthcare systems"
+            }
+          ]
+        },
+        {
+          "id": 126,
+          "pain_point_name": "Compliance",
+          "pain_point_rank": 3,
+          "cyber_category": "Regulatory Compliance",
+          "cyber_subcategory": "Risk Management",
+          "severity_score": 7.0,
+          "growth_rate": 8.0,
+          "description": "Ensuring compliance with regulatory requirements, such as HIPAA, and avoiding costly fines and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical for healthcare compliance."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, aligning with healthcare regulatory requirements."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable choice as it provides API threat detection and data leak protection, addressing key compliance concerns in healthcare."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:18.410470"
+    },
+    {
+      "rank": 17,
+      "industry": "Healthcare",
+      "sub_industry": "Medical Devices",
+      "sub_sub_industry": "Connected Devices",
+      "priority_score": 0.456,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 8.0,
+        "cagr": 12.5,
+        "smb_percentage": 30.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 1000,
+        "description": "The ideal customer is a mid-sized medical device manufacturer with a global presence, focusing on connected devices and digital health solutions. They prioritize patient safety and data security, and are looking to invest in robust cybersecurity measures to protect their products and reputation. They have a dedicated IT team but may lack specialized cybersecurity expertise."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, DDoS",
+      "pain_points": [
+        {
+          "id": 7,
+          "pain_point_name": "Device Vulnerabilities",
+          "pain_point_rank": 1,
+          "cyber_category": "Network Security",
+          "cyber_subcategory": "Device Security",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Medical devices are increasingly connected to the internet, making them vulnerable to cyber attacks and data breaches",
+          "vendor_matches": [
+            {
+              "vendor_name": "Forescout OT Security",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.9,
+              "notes": "Forescout OT Security is a strong fit for medical device security due to its expertise in operational technology and IoT security"
+            },
+            {
+              "vendor_name": "Nozomi Networks Platform",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.8,
+              "notes": "Nozomi Networks Platform provides comprehensive network security and visibility for industrial and medical devices"
+            },
+            {
+              "vendor_name": "Guardicore Segmentation",
+              "cyber_category": "Network Security",
+              "target_market": "",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Guardicore Segmentation offers micro-segmentation to protect medical devices from cyber threats and data breaches"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "pain_point_name": "Data Protection",
+          "pain_point_rank": 2,
+          "cyber_category": "Data Security",
+          "cyber_subcategory": "Data Encryption",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Medical devices handle sensitive patient data, which must be protected from unauthorized access and breaches",
+          "vendor_matches": [
+            {
+              "vendor_name": "IBM Guardium Data Encryption",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.5,
+              "match_score": 0.9,
+              "notes": "IBM Guardium Data Encryption is a strong fit for medical device data protection due to its focus on data encryption and security"
+            },
+            {
+              "vendor_name": "Protegrity",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, data security teams.",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Protegrity offers data security and encryption solutions that can help protect sensitive patient data in medical devices"
+            },
+            {
+              "vendor_name": "ManageEngine Key Manager Plus",
+              "cyber_category": "Data Security",
+              "target_market": "Enterprises, IT security teams.",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "ManageEngine Key Manager Plus provides key management and data encryption capabilities that can help secure medical device data"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "pain_point_name": "Compliance and Regulatory",
+          "pain_point_rank": 3,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 7.0,
+          "growth_rate": 8.0,
+          "description": "Medical device manufacturers must comply with various regulations, such as HIPAA and FDA guidelines, to ensure the security and integrity of their devices and data",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security provides comprehensive API security solutions that can help medical device manufacturers comply with regulations such as HIPAA and FDA guidelines"
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security offers API protection solutions that can help prevent API abuse and ensure compliance with regulatory requirements in the healthcare industry"
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI provides AI-powered API security solutions that can help medical device manufacturers detect and prevent API threats and ensure regulatory compliance"
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 13:18:10.094008"
+    },
+    {
+      "rank": 18,
+      "industry": "Manufacturing",
+      "sub_industry": "Automotive",
+      "sub_sub_industry": "Auto Parts Supply Chain",
+      "priority_score": 0.452,
+      "priority_tier": 2,
+      "key_metrics": {
+        "attack_records": 7.0,
+        "cagr": 5.2,
+        "smb_percentage": 60.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized auto parts supplier with a global presence, relying heavily on digital systems for inventory management and supply chain operations. They have a dedicated IT team but lack specialized cybersecurity expertise. Their operations are critical to the automotive industry, making them a prime target for cyber attacks."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Supply Chain Attacks",
+      "pain_points": [
+        {
+          "id": 148,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Access Control",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Unauthorized access to sensitive data, including customer information and intellectual property",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, directly addressing the pain point of unauthorized access to sensitive data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match as it provides protection against API threats and data leaks, which aligns with the need to prevent unauthorized access to sensitive data."
+            },
+            {
+              "vendor_name": "Corsha",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Corsha is a suitable vendor due to its emphasis on API security and zero trust, which can help prevent unauthorized access to sensitive data in the automotive manufacturing industry."
+            }
+          ]
+        },
+        {
+          "id": 149,
+          "pain_point_name": "Supply Chain Disruption",
+          "pain_point_rank": 2,
+          "cyber_category": "Operational Risk",
+          "cyber_subcategory": "Third-Party Risk",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Cyber attacks on suppliers or logistics partners, causing delays or disruptions to the supply chain",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to preventing supply chain disruptions in the automotive industry."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI's expertise in API threats and data leaks makes it a suitable choice for mitigating supply chain risks in the automotive sector."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security's capabilities in preventing API abuse and DDoS attacks align with the needs of automotive manufacturers to protect their supply chains from cyber threats."
+            }
+          ]
+        },
+        {
+          "id": 150,
+          "pain_point_name": "Ransomware Attacks",
+          "pain_point_rank": 3,
+          "cyber_category": "Malware",
+          "cyber_subcategory": "Ransomware",
+          "severity_score": 8.0,
+          "growth_rate": 20.0,
+          "description": "Malicious software attacks that encrypt data and demand payment in exchange for the decryption key",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit because it specializes in API security and data leaks, which are critical components in preventing ransomware attacks."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides AI-powered API security that can detect and prevent ransomware attacks and data leaks."
+            },
+            {
+              "vendor_name": "Corsha",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Corsha is a suitable vendor because it offers API security and zero-trust solutions that can help prevent ransomware attacks by securing API vulnerabilities."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:49:53.109490"
+    },
+    {
+      "rank": 19,
+      "industry": "Logistics",
+      "sub_industry": "Supply Chain Management",
+      "sub_sub_industry": "Procurement and Inventory Management",
+      "priority_score": 0.448,
+      "priority_tier": 3,
+      "key_metrics": {
+        "attack_records": 7.0,
+        "cagr": 12.5,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "The ideal customer is a mid-sized logistics company with a global supply chain, relying heavily on digital systems for procurement, inventory management, and shipping. They have a dedicated IT team but may lack specialized cybersecurity expertise. Their operations are critical to the global economy, and any disruption could have significant consequences."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Data Breach",
+      "pain_points": [
+        {
+          "id": 157,
+          "pain_point_name": "Supply Chain Disruption",
+          "pain_point_rank": 1,
+          "cyber_category": "Operational Risk",
+          "cyber_subcategory": "Supply Chain Risk",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Cyber attacks on supply chain systems can cause significant disruptions, leading to delays, lost revenue, and damage to reputation.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical to preventing supply chain disruptions."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, which can help mitigate supply chain risk."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.7,
+              "notes": "Traceable AI is a suitable vendor as it offers protection against API threats and data leaks, which are essential for securing supply chain systems."
+            }
+          ]
+        },
+        {
+          "id": 158,
+          "pain_point_name": "Data Theft",
+          "pain_point_rank": 2,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Data Breach",
+          "severity_score": 8.0,
+          "growth_rate": 10.0,
+          "description": "Logistics companies handle sensitive data, including customer information, shipment details, and financial records, making them a prime target for data theft.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit because it specifically addresses API threats and data leaks, which are critical concerns for logistics companies handling sensitive data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match because it provides protection against API threats and data leaks, making it a suitable solution for logistics companies to safeguard their sensitive data."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Salt Security is a suitable vendor because it offers protection against API abuse and DDoS threats, which are relevant to logistics companies seeking to protect their data from theft and other cyber threats."
+            }
+          ]
+        },
+        {
+          "id": 159,
+          "pain_point_name": "Ransomware Attacks",
+          "pain_point_rank": 3,
+          "cyber_category": "Malware",
+          "cyber_subcategory": "Ransomware",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Ransomware attacks can cripple logistics operations, causing significant financial losses and reputational damage.",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, which are critical in preventing ransomware attacks in logistics supply chain management."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.8,
+              "notes": "Salt Security is a good match as it protects against API abuse and DDoS threats, which can help prevent ransomware attacks in logistics operations."
+            },
+            {
+              "vendor_name": "F5 Distributed Cloud API Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.4,
+              "match_score": 0.7,
+              "notes": "F5 Distributed Cloud API Security is a suitable vendor due to its ability to secure APIs and protect against DDoS threats, which is essential in preventing ransomware attacks in logistics supply chain management."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:06.003398"
+    },
+    {
+      "rank": 20,
+      "industry": "Energy",
+      "sub_industry": "Renewable Energy",
+      "sub_sub_industry": "Solar Energy Providers",
+      "priority_score": 0.447,
+      "priority_tier": 3,
+      "key_metrics": {
+        "attack_records": 6.0,
+        "cagr": 10.2,
+        "smb_percentage": 70.0
+      },
+      "ideal_customer_profile": {
+        "headcount_min": 50,
+        "headcount_max": 500,
+        "description": "Solar energy providers with a strong online presence, relying on digital systems for monitoring and controlling their solar panels and energy distribution. These companies often have limited cybersecurity expertise and resources, making them vulnerable to cyber threats. They typically operate in a fast-paced environment with a focus on innovation and customer satisfaction."
+      },
+      "common_cyber_risks": "Ransomware, Phishing, Denial of Service",
+      "pain_points": [
+        {
+          "id": 166,
+          "pain_point_name": "Data Breach",
+          "pain_point_rank": 1,
+          "cyber_category": "Data Protection",
+          "cyber_subcategory": "Access Control",
+          "severity_score": 9.0,
+          "growth_rate": 15.0,
+          "description": "Unauthorized access to sensitive customer and operational data, potentially leading to financial and reputational losses",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API threats and data leaks, directly addressing the pain point of unauthorized access to sensitive data."
+            },
+            {
+              "vendor_name": "Traceable AI",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.7,
+              "match_score": 0.8,
+              "notes": "Traceable AI is a good match as it provides protection against API threats and data leaks, which aligns with the need to prevent unauthorized access to sensitive customer and operational data."
+            },
+            {
+              "vendor_name": "Corsha",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": null,
+              "match_score": 0.7,
+              "notes": "Corsha is a suitable vendor due to its emphasis on API security and zero trust, which can help prevent unauthorized access and protect sensitive data in the renewable energy industry."
+            }
+          ]
+        },
+        {
+          "id": 167,
+          "pain_point_name": "System Downtime",
+          "pain_point_rank": 2,
+          "cyber_category": "Availability",
+          "cyber_subcategory": "Denial of Service",
+          "severity_score": 8.0,
+          "growth_rate": 12.0,
+          "description": "Disruption of critical systems, such as monitoring and control systems, leading to loss of productivity and revenue",
+          "vendor_matches": [
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Salt Security is a strong fit due to its focus on API Abuse and DDoS protection, which directly addresses the denial of service threat in the renewable energy industry."
+            },
+            {
+              "vendor_name": "F5 Distributed Cloud API Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.4,
+              "match_score": 0.8,
+              "notes": "F5 Distributed Cloud API Security is a good match as it protects against API threats and DDoS, which are relevant to preventing system downtime in the renewable energy sector."
+            },
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.7,
+              "notes": "Noname Security is a suitable choice because it defends against API threats and data leaks, which can contribute to system downtime and are critical in the renewable energy industry."
+            }
+          ]
+        },
+        {
+          "id": 168,
+          "pain_point_name": "Compliance and Regulatory Issues",
+          "pain_point_rank": 3,
+          "cyber_category": "Compliance",
+          "cyber_subcategory": "Regulatory Compliance",
+          "severity_score": 7.0,
+          "growth_rate": 10.0,
+          "description": "Failure to comply with relevant cybersecurity regulations and standards, resulting in fines and reputational damage",
+          "vendor_matches": [
+            {
+              "vendor_name": "Noname Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.9,
+              "notes": "Noname Security is a strong fit due to its focus on API security and data leaks, which are critical for compliance and regulatory issues in the renewable energy industry."
+            },
+            {
+              "vendor_name": "Salt Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.6,
+              "match_score": 0.85,
+              "notes": "Salt Security is a good match because it specializes in API abuse and DDoS protection, which are essential for maintaining compliance with cybersecurity regulations in the energy sector."
+            },
+            {
+              "vendor_name": "F5 Distributed Cloud API Security",
+              "cyber_category": "Cloud Security",
+              "target_market": "Enterprises",
+              "customer_rating": 4.4,
+              "match_score": 0.8,
+              "notes": "F5 Distributed Cloud API Security is a suitable choice as it provides comprehensive API threat protection and DDoS mitigation, helping renewable energy companies meet regulatory compliance requirements."
+            }
+          ]
+        }
+      ],
+      "last_updated": "2026-04-09 18:50:19.568053"
+    }
+  ]
+}
