@@ -1,0 +1,19 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local databases and generated reports
+*.db
+data/*.json
+
+# Source data files are kept outside git by default.
+data/*.xlsx
+data/*.xls
+data/*.csv
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/

@@ -13,6 +13,7 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import get_database_url
 
 Base = declarative_base()
 
@@ -184,7 +185,7 @@ class VendorPainPointMap(Base):
 
 def create_tables():
     """Creates all database tables if they do not already exist."""
-    engine = create_engine("sqlite:///loopa_intelligence.db")
+    engine = create_engine(get_database_url())
     Base.metadata.create_all(engine)
     print("Database tables created successfully.")
     return engine

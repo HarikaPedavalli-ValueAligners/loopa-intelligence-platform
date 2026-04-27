@@ -8,14 +8,36 @@
 import os
 import json
 import sys
-from groq import Groq
-from dotenv import load_dotenv
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-load_dotenv()
+from config import PROJECT_ROOT
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
+
+if load_dotenv:
+    load_dotenv(PROJECT_ROOT / ".env")
+
+
+def get_groq_client():
+    """Creates a Groq client lazily so scoring tests do not require AI deps."""
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing GROQ_API_KEY in environment.")
+
+    try:
+        from groq import Groq
+    except ImportError as exc:
+        raise RuntimeError(
+            "Missing dependency 'groq'. Install requirements with: pip install -r requirements.txt"
+        ) from exc
+
+    return Groq(api_key=api_key)
 
 
 # ------------------------------------------------------------
@@ -111,7 +133,8 @@ def calculate_demand_score(data: dict) -> float:
         raw_value           = data.get(variable, 0) or 0
         min_val, max_val    = DEMAND_RANGES[variable]
         normalized          = normalize(raw_value, min_val, max_val)
-        score               += weight * normalized
+        contribution        = (1 - normalized) if weight < 0 else normalized
+        score               += abs(weight) * contribution
 
     return round(score * 100, 2)
 
@@ -133,7 +156,8 @@ def calculate_outbound_score(data: dict) -> float:
         raw_value           = data.get(variable, 0) or 0
         min_val, max_val    = OUTBOUND_RANGES[variable]
         normalized          = normalize(raw_value, min_val, max_val)
-        score               += weight * normalized
+        contribution        = (1 - normalized) if weight < 0 else normalized
+        score               += abs(weight) * contribution
 
     return round(score * 100, 2)
 
@@ -290,8 +314,9 @@ STRICT RULES:
 - Return raw JSON only — no markdown, no extra text
 """
 
+    client = get_groq_client()
     response = client.chat.completions.create(
-        model       = "llama-3.3-70b-versatile",
+        model       = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
         messages    = [{"role": "user", "content": prompt}],
         temperature = 0.3,
     )

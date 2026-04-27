@@ -10,26 +10,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import get_database_url
 from database.schema import Base, NicheMarket, PainPoint, Vendor, VendorPainPointMap
 
 
 def get_engine():
     """
     Returns the database engine.
-    Currently uses SQLite for local development.
-    Replace the connection string below to switch to Azure SQL.
-
-    Azure SQL (when credentials are available):
-    engine = create_engine(
-        f"mssql+pyodbc://{username}:{password}@{server}/{database}"
-        "?driver=ODBC+Driver+17+for+SQL+Server"
-    )
+    Uses SQLite for development and Azure SQL when ENVIRONMENT=production.
     """
-    db_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "loopa_intelligence.db"
-    )
-    return create_engine(f"sqlite:///{db_path}")
+    return create_engine(get_database_url())
 
 
 def get_session():
