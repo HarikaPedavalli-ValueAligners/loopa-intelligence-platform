@@ -124,6 +124,10 @@ def get_vendor_matches_for_pain_point(pain_point_id: int) -> list:
                     "target_market"     : vendor.target_market,
                     "customer_rating"   : vendor.customer_rating,
                     "match_score"       : match.match_score,
+                    "confidence_label"  : match.confidence_label,
+                    "match_type"        : match.match_type,
+                    "matched_terms"     : match.matched_terms,
+                    "is_fallback"       : bool(match.is_fallback),
                     "notes"             : match.notes
                 })
 
@@ -291,6 +295,7 @@ def display_report(report: dict) -> None:
                     print(
                         f"         - {v['vendor_name']}  "
                         f"(Match: {v['match_score']}  |  "
+                        f"Confidence: {v.get('confidence_label')}  |  "
                         f"Rating: {v['customer_rating']})"
                     )
                     print(f"           {v['notes']}")

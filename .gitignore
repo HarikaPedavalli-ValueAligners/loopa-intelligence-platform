@@ -9,6 +9,9 @@ __pycache__/
 data/*.json
 
 # Source data files are kept outside git by default.
+*.xlsx
+*.xls
+*.csv
 data/*.xlsx
 data/*.xls
 data/*.csv

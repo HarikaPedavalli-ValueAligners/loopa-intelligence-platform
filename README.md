@@ -49,6 +49,8 @@ python agents/vendor_importer.py
 python agents/batch_processor.py --limit 20
 python agents/vendor_matcher.py
 python utils/report_generator.py
+python utils/sales_exporter.py --limit 100 --min-tier 2
+python utils/monitoring.py
 python utils/recalculate_scores.py
 python scheduler.py --run-now
 ```
@@ -69,6 +71,27 @@ python agents/batch_processor.py --seed-list --limit 5
 ```
 
 The batch processor reads from `niche_markets` by default. Use the niche market importer to load the 700+ market list before running a full batch.
+
+Vendor matching now saves confidence metadata and defaults to real matches only:
+
+```bash
+python agents/vendor_matcher.py --min-confidence weak
+python agents/vendor_matcher.py --min-confidence medium
+python agents/vendor_matcher.py --include-fallback
+```
+
+Start the local JSON API for dashboard integration:
+
+```bash
+python api/server.py --port 8787
+```
+
+Useful endpoints:
+
+- `GET /health`
+- `GET /dashboard/summary`
+- `GET /niches/top?limit=20`
+- `GET /runs`
 
 Run history is stored in:
 

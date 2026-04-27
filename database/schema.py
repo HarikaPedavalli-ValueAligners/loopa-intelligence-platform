@@ -29,11 +29,9 @@ class NicheMarket(Base):
     __tablename__ = "niche_markets"
     __table_args__ = (
         UniqueConstraint(
-            "industry",
-            "sub_industry",
-            "sub_sub_industry",
+            "niche_name",
             "geography",
-            name="uq_niche_market_identity",
+            name="uq_niche_name_geography",
         ),
         Index("ix_niche_priority_score", "priority_score"),
         Index("ix_niche_priority_tier", "priority_tier"),
@@ -46,6 +44,8 @@ class NicheMarket(Base):
     industry                    = Column(String(255), nullable=False)
     sub_industry                = Column(String(255), default="")
     sub_sub_industry            = Column(String(255), default="")
+    sub_sub_sub_industry        = Column(String(255), default="")
+    sub_sub_sub_sub_industry    = Column(String(255), default="")
     level                       = Column(Integer)
 
     # Identification and segmentation
@@ -53,6 +53,19 @@ class NicheMarket(Base):
     parent_industry             = Column(String(255))
     naics_code                  = Column(String(50))
     geography                   = Column(String(100))
+    ownership_sector            = Column(String(100))
+    sector_code                 = Column(String(50))
+    sub_industry_code           = Column(String(50))
+    sub_sub_industry_code       = Column(String(50))
+    sub_sub_sub_industry_code   = Column(String(50))
+    sub_sub_sub_sub_industry_code = Column(String(50))
+    primary_buyer_role          = Column(String(255))
+    likely_compliance_regimes   = Column(Text)
+    conditional_compliance_regimes = Column(Text)
+    compliance_tag_confidence   = Column(String(50))
+    compliance_tag_basis        = Column(Text)
+    recommended_cyber_themes    = Column(Text)
+    regulatory_or_compliance_drivers = Column(Text)
 
     # Structural and economic variables
     avg_employee_count_min      = Column(Integer)
@@ -228,6 +241,10 @@ class VendorPainPointMap(Base):
     vendor_id       = Column(Integer, ForeignKey("vendors.id", ondelete="CASCADE"), nullable=False)
     pain_point_id   = Column(Integer, ForeignKey("pain_points.id", ondelete="CASCADE"), nullable=False)
     match_score     = Column(Float)
+    confidence_label = Column(String(50))
+    match_type      = Column(String(50))
+    matched_terms   = Column(Text)
+    is_fallback     = Column(Boolean, default=False)
     notes           = Column(Text)
     last_updated    = Column(DateTime, default=func.now(), onupdate=func.now())
 

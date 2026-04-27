@@ -23,9 +23,42 @@ COLUMN_ALIASES = {
         "niche_market",
         "sub-sub-industry",
     ],
-    "niche_name": ["niche name", "niche_name", "market name", "market_name"],
-    "naics_code": ["naics", "naics code", "naics_code"],
+    "sub_sub_sub_industry": [
+        "sub sub sub industry",
+        "sub_sub_sub_industry",
+        "sub-sub-sub-industry",
+    ],
+    "sub_sub_sub_sub_industry": [
+        "sub sub sub sub industry",
+        "sub_sub_sub_sub_industry",
+        "sub-sub-sub-sub-industry",
+    ],
+    "niche_name": ["niche name", "niche_name", "niche market name", "market name", "market_name"],
+    "naics_code": [
+        "naics",
+        "naics code",
+        "naics_code",
+        "sub sub sub sub industry code",
+        "sub_sub_sub_sub_industry_code",
+        "national industry code",
+    ],
     "geography": ["geography", "country", "region", "market"],
+    "ownership_sector": ["ownership sector", "ownership_sector"],
+    "sector_code": ["sector code", "sector_code"],
+    "sub_industry_code": ["sub industry code", "sub_industry_code"],
+    "sub_sub_industry_code": ["sub sub industry code", "sub_sub_industry_code"],
+    "sub_sub_sub_industry_code": ["sub sub sub industry code", "sub_sub_sub_industry_code"],
+    "sub_sub_sub_sub_industry_code": ["sub sub sub sub industry code", "sub_sub_sub_sub_industry_code"],
+    "primary_buyer_role": ["primary buyer role", "primary_buyer_role"],
+    "likely_compliance_regimes": ["likely compliance regimes", "likely_compliance_regimes"],
+    "conditional_compliance_regimes": ["conditional compliance regimes", "conditional_compliance_regimes"],
+    "compliance_tag_confidence": ["compliance tag confidence", "compliance_tag_confidence"],
+    "compliance_tag_basis": ["compliance tag basis", "compliance_tag_basis"],
+    "recommended_cyber_themes": ["recommended cyber themes", "recommended_cyber_themes"],
+    "regulatory_or_compliance_drivers": [
+        "regulatory or compliance drivers",
+        "regulatory_or_compliance_drivers",
+    ],
     "source_notes": ["notes", "source notes", "source_notes", "description"],
 }
 
@@ -85,9 +118,12 @@ def read_niche_file(path: str, sheet_name: str = None) -> list:
 
         record.setdefault("sub_industry", "")
         record.setdefault("sub_sub_industry", "")
+        record.setdefault("sub_sub_sub_industry", "")
+        record.setdefault("sub_sub_sub_sub_industry", "")
         record.setdefault("geography", "US")
         record["geography"] = record.get("geography") or "US"
         record["source_status"] = "seed"
+        record["naics_code"] = record.get("naics_code") or record.get("sub_sub_sub_sub_industry_code")
 
         if not record.get("niche_name"):
             record["niche_name"] = " > ".join(
@@ -95,6 +131,8 @@ def read_niche_file(path: str, sheet_name: str = None) -> list:
                     record.get("industry"),
                     record.get("sub_industry"),
                     record.get("sub_sub_industry"),
+                    record.get("sub_sub_sub_industry"),
+                    record.get("sub_sub_sub_sub_industry"),
                 ] if p
             )
 

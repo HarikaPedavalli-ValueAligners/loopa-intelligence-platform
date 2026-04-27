@@ -50,8 +50,26 @@ def _niche_identity(data: dict) -> dict:
         "industry": _clean_text(data.get("industry")),
         "sub_industry": _clean_text(data.get("sub_industry")),
         "sub_sub_industry": _clean_text(data.get("sub_sub_industry")),
+        "sub_sub_sub_industry": _clean_text(data.get("sub_sub_sub_industry")),
+        "sub_sub_sub_sub_industry": _clean_text(data.get("sub_sub_sub_sub_industry")),
         "geography": _clean_text(data.get("geography") or "US") or "US",
     }
+
+
+def _find_existing_niche(session, data: dict):
+    geography = _clean_text(data.get("geography") or "US") or "US"
+    niche_name = _clean_text(data.get("niche_name"))
+
+    if niche_name:
+        existing = session.query(NicheMarket).filter_by(
+            niche_name=niche_name,
+            geography=geography,
+        ).first()
+        if existing:
+            return existing
+
+    identity = _niche_identity(data)
+    return session.query(NicheMarket).filter_by(**identity).first()
 
 
 def _niche_to_dict(niche: NicheMarket) -> dict:
@@ -60,6 +78,8 @@ def _niche_to_dict(niche: NicheMarket) -> dict:
         "industry": niche.industry,
         "sub_industry": niche.sub_industry,
         "sub_sub_industry": niche.sub_sub_industry,
+        "sub_sub_sub_industry": niche.sub_sub_sub_industry,
+        "sub_sub_sub_sub_industry": niche.sub_sub_sub_sub_industry,
         "niche_name": niche.niche_name,
         "naics_code": niche.naics_code,
         "geography": niche.geography,
@@ -86,7 +106,7 @@ def save_niche_market(data: dict) -> int:
     try:
         # Check if record already exists
         identity = _niche_identity(data)
-        existing = session.query(NicheMarket).filter_by(**identity).first()
+        existing = _find_existing_niche(session, data)
 
         niche = existing if existing else NicheMarket()
 
@@ -94,11 +114,28 @@ def save_niche_market(data: dict) -> int:
         niche.industry                  = identity["industry"]
         niche.sub_industry              = identity["sub_industry"]
         niche.sub_sub_industry          = identity["sub_sub_industry"]
+        niche.sub_sub_sub_industry      = identity["sub_sub_sub_industry"]
+        niche.sub_sub_sub_sub_industry  = identity["sub_sub_sub_sub_industry"]
         niche.niche_name                = data.get("niche_name")
         niche.parent_industry           = data.get("industry")
         niche.naics_code                = data.get("naics_code")
         niche.geography                 = identity["geography"]
+        niche.ownership_sector          = data.get("ownership_sector")
+        niche.sector_code               = data.get("sector_code")
+        niche.sub_industry_code         = data.get("sub_industry_code")
+        niche.sub_sub_industry_code     = data.get("sub_sub_industry_code")
+        niche.sub_sub_sub_industry_code = data.get("sub_sub_sub_industry_code")
+        niche.sub_sub_sub_sub_industry_code = data.get("sub_sub_sub_sub_industry_code")
+        niche.primary_buyer_role        = data.get("primary_buyer_role")
+        niche.likely_compliance_regimes = data.get("likely_compliance_regimes")
+        niche.conditional_compliance_regimes = data.get("conditional_compliance_regimes")
+        niche.compliance_tag_confidence = data.get("compliance_tag_confidence")
+        niche.compliance_tag_basis      = data.get("compliance_tag_basis")
+        niche.recommended_cyber_themes  = data.get("recommended_cyber_themes")
+        niche.regulatory_or_compliance_drivers = data.get("regulatory_or_compliance_drivers")
         niche.level                     = (
+            5 if data.get("sub_sub_sub_sub_industry") else
+            4 if data.get("sub_sub_sub_industry") else
             3 if data.get("sub_sub_industry") else
             2 if data.get("sub_industry") else 1
         )
@@ -194,19 +231,50 @@ def upsert_niche_market_seed(data: dict) -> int:
         if not identity["industry"]:
             raise ValueError("industry is required")
 
-        niche = session.query(NicheMarket).filter_by(**identity).first()
+        niche = _find_existing_niche(session, data)
         if not niche:
             niche = NicheMarket(**identity)
             session.add(niche)
+        else:
+            niche.industry = identity["industry"]
+            niche.sub_industry = identity["sub_industry"]
+            niche.sub_sub_industry = identity["sub_sub_industry"]
+            niche.sub_sub_sub_industry = identity["sub_sub_sub_industry"]
+            niche.sub_sub_sub_sub_industry = identity["sub_sub_sub_sub_industry"]
+            niche.geography = identity["geography"]
 
         niche.niche_name = data.get("niche_name") or " > ".join(
-            p for p in [identity["industry"], identity["sub_industry"], identity["sub_sub_industry"]] if p
+            p for p in [
+                identity["industry"],
+                identity["sub_industry"],
+                identity["sub_sub_industry"],
+                identity["sub_sub_sub_industry"],
+                identity["sub_sub_sub_sub_industry"],
+            ] if p
         )
         niche.parent_industry = data.get("parent_industry") or identity["industry"]
         niche.naics_code = data.get("naics_code")
+        niche.ownership_sector = data.get("ownership_sector")
+        niche.sector_code = data.get("sector_code")
+        niche.sub_industry_code = data.get("sub_industry_code")
+        niche.sub_sub_industry_code = data.get("sub_sub_industry_code")
+        niche.sub_sub_sub_industry_code = data.get("sub_sub_sub_industry_code")
+        niche.sub_sub_sub_sub_industry_code = data.get("sub_sub_sub_sub_industry_code")
+        niche.primary_buyer_role = data.get("primary_buyer_role")
+        niche.likely_compliance_regimes = data.get("likely_compliance_regimes")
+        niche.conditional_compliance_regimes = data.get("conditional_compliance_regimes")
+        niche.compliance_tag_confidence = data.get("compliance_tag_confidence")
+        niche.compliance_tag_basis = data.get("compliance_tag_basis")
+        niche.recommended_cyber_themes = data.get("recommended_cyber_themes")
+        niche.regulatory_or_compliance_drivers = data.get("regulatory_or_compliance_drivers")
         niche.source_notes = data.get("source_notes")
         niche.source_status = data.get("source_status") or "seed"
-        niche.level = 3 if identity["sub_sub_industry"] else 2 if identity["sub_industry"] else 1
+        niche.level = (
+            5 if identity["sub_sub_sub_sub_industry"] else
+            4 if identity["sub_sub_sub_industry"] else
+            3 if identity["sub_sub_industry"] else
+            2 if identity["sub_industry"] else 1
+        )
         niche.last_updated = datetime.now()
 
         session.commit()
