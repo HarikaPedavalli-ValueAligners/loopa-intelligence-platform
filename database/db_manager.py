@@ -5,13 +5,22 @@
 
 import os
 import sys
+import json
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import get_database_url
-from database.schema import Base, NicheMarket, PainPoint, Vendor, VendorPainPointMap
+from database.schema import (
+    Base,
+    IntelligenceRun,
+    NicheMarket,
+    PainPoint,
+    RunItem,
+    Vendor,
+    VendorPainPointMap,
+)
 
 
 def get_engine():
@@ -30,6 +39,36 @@ def get_session():
     return Session()
 
 
+def _clean_text(value) -> str:
+    if value is None:
+        return ""
+    return str(value).strip()
+
+
+def _niche_identity(data: dict) -> dict:
+    return {
+        "industry": _clean_text(data.get("industry")),
+        "sub_industry": _clean_text(data.get("sub_industry")),
+        "sub_sub_industry": _clean_text(data.get("sub_sub_industry")),
+        "geography": _clean_text(data.get("geography") or "US") or "US",
+    }
+
+
+def _niche_to_dict(niche: NicheMarket) -> dict:
+    return {
+        "id": niche.id,
+        "industry": niche.industry,
+        "sub_industry": niche.sub_industry,
+        "sub_sub_industry": niche.sub_sub_industry,
+        "niche_name": niche.niche_name,
+        "naics_code": niche.naics_code,
+        "geography": niche.geography,
+        "priority_score": niche.priority_score,
+        "priority_tier": niche.priority_tier,
+        "last_updated": str(niche.last_updated) if niche.last_updated else None,
+    }
+
+
 def save_niche_market(data: dict) -> int:
     """
     Saves or updates a niche market and its pain points.
@@ -46,22 +85,19 @@ def save_niche_market(data: dict) -> int:
 
     try:
         # Check if record already exists
-        existing = session.query(NicheMarket).filter_by(
-            industry         = data.get("industry"),
-            sub_industry     = data.get("sub_industry", ""),
-            sub_sub_industry = data.get("sub_sub_industry", "")
-        ).first()
+        identity = _niche_identity(data)
+        existing = session.query(NicheMarket).filter_by(**identity).first()
 
         niche = existing if existing else NicheMarket()
 
         # Identification and segmentation
-        niche.industry                  = data.get("industry")
-        niche.sub_industry              = data.get("sub_industry", "")
-        niche.sub_sub_industry          = data.get("sub_sub_industry", "")
+        niche.industry                  = identity["industry"]
+        niche.sub_industry              = identity["sub_industry"]
+        niche.sub_sub_industry          = identity["sub_sub_industry"]
         niche.niche_name                = data.get("niche_name")
         niche.parent_industry           = data.get("industry")
         niche.naics_code                = data.get("naics_code")
-        niche.geography                 = data.get("geography", "US")
+        niche.geography                 = identity["geography"]
         niche.level                     = (
             3 if data.get("sub_sub_industry") else
             2 if data.get("sub_industry") else 1
@@ -107,6 +143,8 @@ def save_niche_market(data: dict) -> int:
 
         # Notes
         niche.assumptions_notes         = data.get("assumptions_notes")
+        niche.source_notes              = data.get("source_notes") or data.get("assumptions_notes")
+        niche.source_status             = data.get("source_status") or "researched"
         niche.last_updated              = datetime.now()
 
         if not existing:
@@ -139,6 +177,213 @@ def save_niche_market(data: dict) -> int:
     except Exception as e:
         session.rollback()
         raise e
+
+    finally:
+        session.close()
+
+
+def upsert_niche_market_seed(data: dict) -> int:
+    """
+    Creates or updates a niche market seed row before AI enrichment.
+    Used by the 700+ niche market importer.
+    """
+    session = get_session()
+
+    try:
+        identity = _niche_identity(data)
+        if not identity["industry"]:
+            raise ValueError("industry is required")
+
+        niche = session.query(NicheMarket).filter_by(**identity).first()
+        if not niche:
+            niche = NicheMarket(**identity)
+            session.add(niche)
+
+        niche.niche_name = data.get("niche_name") or " > ".join(
+            p for p in [identity["industry"], identity["sub_industry"], identity["sub_sub_industry"]] if p
+        )
+        niche.parent_industry = data.get("parent_industry") or identity["industry"]
+        niche.naics_code = data.get("naics_code")
+        niche.source_notes = data.get("source_notes")
+        niche.source_status = data.get("source_status") or "seed"
+        niche.level = 3 if identity["sub_sub_industry"] else 2 if identity["sub_industry"] else 1
+        niche.last_updated = datetime.now()
+
+        session.commit()
+        return niche.id
+
+    except Exception:
+        session.rollback()
+        raise
+
+    finally:
+        session.close()
+
+
+def get_niche_markets_for_batch(limit: int = None, only_failed: bool = False, resume: bool = False) -> list:
+    """
+    Returns niche markets to process from the database.
+
+    only_failed: process niches whose latest run item failed.
+    resume: process niches that have not had a successful run yet.
+    """
+    session = get_session()
+
+    try:
+        query = session.query(NicheMarket)
+
+        if only_failed or resume:
+            latest_status = (
+                session.query(RunItem.status)
+                .join(IntelligenceRun, IntelligenceRun.id == RunItem.run_id)
+                .filter(RunItem.niche_market_id == NicheMarket.id)
+                .order_by(RunItem.completed_at.desc(), RunItem.id.desc())
+                .limit(1)
+                .correlate(NicheMarket)
+                .scalar_subquery()
+            )
+            if only_failed:
+                query = query.filter(latest_status == "failed")
+            else:
+                query = query.filter((latest_status.is_(None)) | (latest_status != "success"))
+
+        query = query.order_by(
+            NicheMarket.priority_score.desc().nullslast(),
+            NicheMarket.id.asc(),
+        )
+
+        if limit:
+            query = query.limit(limit)
+
+        return [_niche_to_dict(niche) for niche in query.all()]
+
+    finally:
+        session.close()
+
+
+def start_intelligence_run(
+    total_items: int,
+    run_type: str = "batch",
+    source: str = None,
+    ai_model: str = None,
+    metadata: dict = None,
+) -> int:
+    """Creates a new intelligence run record."""
+    session = get_session()
+
+    try:
+        run = IntelligenceRun(
+            run_type=run_type,
+            status="running",
+            total_items=total_items,
+            source=source,
+            ai_model=ai_model,
+            metadata_json=json.dumps(metadata or {}),
+            started_at=datetime.now(),
+        )
+        session.add(run)
+        session.commit()
+        return run.id
+
+    finally:
+        session.close()
+
+
+def record_run_item_start(run_id: int, niche_market_id: int) -> int:
+    """Creates or updates a run item when processing starts."""
+    session = get_session()
+
+    try:
+        item = session.query(RunItem).filter_by(
+            run_id=run_id,
+            niche_market_id=niche_market_id,
+        ).first()
+        if not item:
+            item = RunItem(run_id=run_id, niche_market_id=niche_market_id)
+            session.add(item)
+
+        item.status = "running"
+        item.attempts = (item.attempts or 0) + 1
+        item.error_message = None
+        item.started_at = datetime.now()
+        item.last_updated = datetime.now()
+        session.commit()
+        return item.id
+
+    finally:
+        session.close()
+
+
+def record_run_item_success(run_id: int, niche_market_id: int, data: dict) -> None:
+    """Marks one run item as successful."""
+    session = get_session()
+
+    try:
+        item = session.query(RunItem).filter_by(
+            run_id=run_id,
+            niche_market_id=niche_market_id,
+        ).first()
+        if not item:
+            item = RunItem(run_id=run_id, niche_market_id=niche_market_id)
+            session.add(item)
+
+        item.status = "success"
+        item.error_message = None
+        item.demand_score = data.get("demand_score")
+        item.outbound_score = data.get("outbound_score")
+        item.priority_score = data.get("priority_score")
+        item.priority_tier = data.get("priority_tier")
+        item.completed_at = datetime.now()
+        item.last_updated = datetime.now()
+        session.commit()
+
+    finally:
+        session.close()
+
+
+def record_run_item_failure(run_id: int, niche_market_id: int, error_message: str) -> None:
+    """Marks one run item as failed."""
+    session = get_session()
+
+    try:
+        item = session.query(RunItem).filter_by(
+            run_id=run_id,
+            niche_market_id=niche_market_id,
+        ).first()
+        if not item:
+            item = RunItem(run_id=run_id, niche_market_id=niche_market_id)
+            session.add(item)
+
+        item.status = "failed"
+        item.error_message = str(error_message)
+        item.completed_at = datetime.now()
+        item.last_updated = datetime.now()
+        session.commit()
+
+    finally:
+        session.close()
+
+
+def finish_intelligence_run(run_id: int, status: str = None, error_summary: str = None) -> None:
+    """Finalizes an intelligence run using its item counts."""
+    session = get_session()
+
+    try:
+        run = session.query(IntelligenceRun).filter_by(id=run_id).first()
+        if not run:
+            return
+
+        success_count = session.query(RunItem).filter_by(run_id=run_id, status="success").count()
+        failure_count = session.query(RunItem).filter_by(run_id=run_id, status="failed").count()
+        skipped_count = session.query(RunItem).filter_by(run_id=run_id, status="skipped").count()
+
+        run.success_count = success_count
+        run.failure_count = failure_count
+        run.skipped_count = skipped_count
+        run.completed_at = datetime.now()
+        run.error_summary = error_summary
+        run.status = status or ("completed_with_errors" if failure_count else "completed")
+        session.commit()
 
     finally:
         session.close()
@@ -235,7 +480,13 @@ def get_database_stats() -> dict:
             "tier_3"              : session.query(NicheMarket).filter_by(priority_tier=3).count(),
             "total_pain_points"   : session.query(PainPoint).count(),
             "total_vendors"       : session.query(Vendor).count(),
+            "total_runs"          : session.query(IntelligenceRun).count(),
+            "latest_run_status"   : None,
         }
+
+        latest_run = session.query(IntelligenceRun).order_by(IntelligenceRun.id.desc()).first()
+        if latest_run:
+            stats["latest_run_status"] = latest_run.status
 
         print("\nLoopa Intelligence - Database Summary")
         print("-" * 40)
@@ -245,6 +496,9 @@ def get_database_stats() -> dict:
         print(f"  Tier 3        : {stats['tier_3']}")
         print(f"Pain Points     : {stats['total_pain_points']}")
         print(f"Vendors         : {stats['total_vendors']}")
+        print(f"Runs            : {stats['total_runs']}")
+        if stats["latest_run_status"]:
+            print(f"Latest Run      : {stats['latest_run_status']}")
         print("-" * 40)
 
         return stats

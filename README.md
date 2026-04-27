@@ -43,8 +43,10 @@ Generated JSON reports and the local SQLite database are also ignored.
 
 ```bash
 python database/schema.py
+python database/migrate.py
+python agents/niche_market_importer.py data/niche_markets.csv
 python agents/vendor_importer.py
-python agents/batch_processor.py
+python agents/batch_processor.py --limit 20
 python agents/vendor_matcher.py
 python utils/report_generator.py
 python utils/recalculate_scores.py
@@ -56,6 +58,22 @@ Start the weekly scheduler:
 ```bash
 python scheduler.py
 ```
+
+Batch options:
+
+```bash
+python agents/batch_processor.py --limit 50
+python agents/batch_processor.py --resume
+python agents/batch_processor.py --only-failed
+python agents/batch_processor.py --seed-list --limit 5
+```
+
+The batch processor reads from `niche_markets` by default. Use the niche market importer to load the 700+ market list before running a full batch.
+
+Run history is stored in:
+
+- `intelligence_runs`
+- `run_items`
 
 ## Scoring Model
 

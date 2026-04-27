@@ -101,6 +101,75 @@ OUTBOUND_RANGES = {
     "offer_fit"                 : (1, 10),
 }
 
+REQUIRED_TOP_LEVEL_FIELDS = [
+    "industry",
+    "sub_industry",
+    "sub_sub_industry",
+    "niche_name",
+    "geography",
+    "naics_code",
+    "avg_employee_count_min",
+    "avg_employee_count_max",
+    "attack_records",
+    "digitalization_level",
+    "sme_revenue_contribution",
+    "cagr",
+    "cybersecurity_readiness",
+    "industry_size",
+    "smb_percentage",
+    "estimated_annual_loss",
+    "regulatory_complexity",
+    "common_cyber_risks",
+    "reachability",
+    "buyer_role_clarity",
+    "procurement_friction",
+    "time_to_value",
+    "vendor_sprawl",
+    "budget_proxy",
+    "offer_fit",
+    "compliance_audit_drivers",
+    "compliance_audit_notes",
+    "icp_headcount_min",
+    "icp_headcount_max",
+    "icp_description",
+    "assumptions_notes",
+    "top_pain_points",
+]
+
+SCALE_1_TO_10_FIELDS = [
+    "attack_records",
+    "digitalization_level",
+    "cybersecurity_readiness",
+    "regulatory_complexity",
+    "reachability",
+    "buyer_role_clarity",
+    "procurement_friction",
+    "time_to_value",
+    "vendor_sprawl",
+    "budget_proxy",
+    "offer_fit",
+]
+
+PERCENTAGE_FIELDS = [
+    "sme_revenue_contribution",
+    "cagr",
+    "smb_percentage",
+]
+
+PAIN_POINT_REQUIRED_FIELDS = [
+    "rank",
+    "pain_point",
+    "description",
+    "cyber_category",
+    "cyber_subcategory",
+    "severity_score",
+    "growth_rate",
+]
+
+
+class ResearchValidationError(ValueError):
+    """Raised when AI research output is invalid or incomplete."""
+
 
 def normalize(value: float, min_val: float, max_val: float) -> float:
     """
@@ -110,6 +179,93 @@ def normalize(value: float, min_val: float, max_val: float) -> float:
     if max_val == min_val:
         return 0.0
     return min(max((value - min_val) / (max_val - min_val), 0.0), 1.0)
+
+
+def _coerce_number(value, field_name: str) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError) as exc:
+        raise ResearchValidationError(f"{field_name} must be numeric") from exc
+
+
+def strip_json_response(raw: str) -> str:
+    """Extracts raw JSON from plain or fenced model output."""
+    text = (raw or "").strip()
+
+    if text.startswith("```"):
+        parts = text.split("```")
+        if len(parts) >= 2:
+            text = parts[1].strip()
+            if text.lower().startswith("json"):
+                text = text[4:].strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        raise ResearchValidationError("AI response did not contain a JSON object")
+
+    return text[start:end + 1]
+
+
+def validate_research_output(data: dict) -> dict:
+    """Validates and normalizes the AI research JSON contract."""
+    if not isinstance(data, dict):
+        raise ResearchValidationError("AI response must be a JSON object")
+
+    missing = [
+        field for field in REQUIRED_TOP_LEVEL_FIELDS
+        if field not in data
+    ]
+    if missing:
+        raise ResearchValidationError(f"Missing required fields: {', '.join(missing)}")
+
+    for field in SCALE_1_TO_10_FIELDS:
+        value = _coerce_number(data.get(field), field)
+        if value < 1 or value > 10:
+            raise ResearchValidationError(f"{field} must be between 1 and 10")
+        data[field] = int(value) if value.is_integer() else value
+
+    for field in PERCENTAGE_FIELDS:
+        value = _coerce_number(data.get(field), field)
+        if value < 0 or value > 100:
+            raise ResearchValidationError(f"{field} must be between 0 and 100")
+        data[field] = value
+
+    for field in ["industry_size", "estimated_annual_loss"]:
+        value = _coerce_number(data.get(field), field)
+        if value < 0:
+            raise ResearchValidationError(f"{field} must be non-negative")
+        data[field] = value
+
+    if data.get("compliance_audit_drivers") not in {"Yes", "No"}:
+        raise ResearchValidationError('compliance_audit_drivers must be exactly "Yes" or "No"')
+
+    pain_points = data.get("top_pain_points")
+    if not isinstance(pain_points, list) or len(pain_points) < 3:
+        raise ResearchValidationError("top_pain_points must include at least 3 items")
+
+    for index, pain_point in enumerate(pain_points, start=1):
+        if not isinstance(pain_point, dict):
+            raise ResearchValidationError(f"top_pain_points[{index}] must be an object")
+
+        missing_pain_fields = [
+            field for field in PAIN_POINT_REQUIRED_FIELDS
+            if field not in pain_point
+        ]
+        if missing_pain_fields:
+            raise ResearchValidationError(
+                f"top_pain_points[{index}] missing: {', '.join(missing_pain_fields)}"
+            )
+
+        severity = _coerce_number(pain_point.get("severity_score"), f"top_pain_points[{index}].severity_score")
+        if severity < 1 or severity > 10:
+            raise ResearchValidationError(f"top_pain_points[{index}].severity_score must be between 1 and 10")
+        pain_point["severity_score"] = int(severity) if severity.is_integer() else severity
+
+        growth_rate = _coerce_number(pain_point.get("growth_rate"), f"top_pain_points[{index}].growth_rate")
+        pain_point["growth_rate"] = growth_rate
+
+    return data
 
 
 # ------------------------------------------------------------
@@ -205,7 +361,8 @@ def get_priority_tier(priority_score: float) -> int:
 def research_niche_market(
     industry: str,
     sub_industry: str = None,
-    sub_sub_industry: str = None
+    sub_sub_industry: str = None,
+    max_retries: int = 2,
 ) -> dict:
     """
     Researches a niche market using the AI model and returns
@@ -315,22 +472,35 @@ STRICT RULES:
 """
 
     client = get_groq_client()
-    response = client.chat.completions.create(
-        model       = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
-        messages    = [{"role": "user", "content": prompt}],
-        temperature = 0.3,
-    )
+    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    last_error = None
 
-    raw = response.choices[0].message.content.strip()
+    for attempt in range(max_retries + 1):
+        response = client.chat.completions.create(
+            model       = model,
+            messages    = [{"role": "user", "content": prompt}],
+            temperature = 0.3,
+        )
 
-    # Strip markdown code blocks if model returns them
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
-    raw = raw.strip()
+        raw = response.choices[0].message.content.strip()
 
-    data = json.loads(raw)
+        try:
+            data = json.loads(strip_json_response(raw))
+            data = validate_research_output(data)
+            break
+        except (json.JSONDecodeError, ResearchValidationError) as exc:
+            last_error = exc
+            if attempt >= max_retries:
+                raise ResearchValidationError(
+                    f"AI research output failed validation after {max_retries + 1} attempts: {exc}"
+                ) from exc
+    else:
+        raise ResearchValidationError(str(last_error))
+
+    data["industry"] = industry
+    data["sub_industry"] = sub_industry or ""
+    data["sub_sub_industry"] = sub_sub_industry or ""
+    data["ai_model"] = model
 
     # Calculate two-layer scores
     data["demand_score"]    = calculate_demand_score(data)
