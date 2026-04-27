@@ -1,0 +1,170 @@
+{
+  "total": 20,
+  "success": 20,
+  "failed": 0,
+  "errors": [],
+  "processed": [
+    {
+      "niche": "Healthcare > Hospitals > Hospital Supply Chain",
+      "demand_score": 51.89,
+      "outbound_score": 25.56,
+      "priority_score": 13.26,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Healthcare > Hospitals > Emergency Services",
+      "demand_score": 52.11,
+      "outbound_score": 25.0,
+      "priority_score": 13.03,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Healthcare > Medical Devices",
+      "demand_score": 43.42,
+      "outbound_score": 41.11,
+      "priority_score": 17.85,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Healthcare > Telemedicine",
+      "demand_score": 61.26,
+      "outbound_score": 39.44,
+      "priority_score": 24.16,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Financial Services > Banking > Retail Banking",
+      "demand_score": 49.42,
+      "outbound_score": 40.56,
+      "priority_score": 20.04,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Financial Services > Banking > Investment Banking",
+      "demand_score": 51.86,
+      "outbound_score": 39.44,
+      "priority_score": 20.45,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Financial Services > Insurance",
+      "demand_score": 44.62,
+      "outbound_score": 40.56,
+      "priority_score": 18.1,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Financial Services > Fintech",
+      "demand_score": 57.61,
+      "outbound_score": 39.44,
+      "priority_score": 22.72,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Manufacturing > Contract Manufacturing",
+      "demand_score": 47.31,
+      "outbound_score": 35.0,
+      "priority_score": 16.56,
+      "priority_tier": 3,
+      "top_pain_point": "Intellectual Property Theft"
+    },
+    {
+      "niche": "Manufacturing > Automotive > Auto Parts Supply Chain",
+      "demand_score": 43.38,
+      "outbound_score": 26.11,
+      "priority_score": 11.33,
+      "priority_tier": 3,
+      "top_pain_point": "Supply Chain Disruptions"
+    },
+    {
+      "niche": "E-Commerce > E-Commerce Platforms",
+      "demand_score": 60.59,
+      "outbound_score": 41.11,
+      "priority_score": 24.91,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "E-Commerce > Direct-to-Consumer Brands",
+      "demand_score": 54.28,
+      "outbound_score": 39.44,
+      "priority_score": 21.41,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Logistics > Supply Chain Management",
+      "demand_score": 49.06,
+      "outbound_score": 27.22,
+      "priority_score": 13.35,
+      "priority_tier": 3,
+      "top_pain_point": "Supply Chain Disruption"
+    },
+    {
+      "niche": "Logistics > Last Mile Delivery",
+      "demand_score": 51.08,
+      "outbound_score": 39.44,
+      "priority_score": 20.15,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Energy > Oil and Gas",
+      "demand_score": 52.89,
+      "outbound_score": 36.67,
+      "priority_score": 19.39,
+      "priority_tier": 3,
+      "top_pain_point": "Ransomware Attacks"
+    },
+    {
+      "niche": "Energy > Renewable Energy > Solar Energy Providers",
+      "demand_score": 50.47,
+      "outbound_score": 39.44,
+      "priority_score": 19.91,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Professional Services > Legal Services",
+      "demand_score": 48.01,
+      "outbound_score": 39.44,
+      "priority_score": 18.94,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Professional Services > Accounting Firms",
+      "demand_score": 49.79,
+      "outbound_score": 37.22,
+      "priority_score": 18.53,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Retail > Grocery Retail",
+      "demand_score": 46.76,
+      "outbound_score": 39.44,
+      "priority_score": 18.44,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    },
+    {
+      "niche": "Retail > Fashion Retail",
+      "demand_score": 51.78,
+      "outbound_score": 38.33,
+      "priority_score": 19.85,
+      "priority_tier": 3,
+      "top_pain_point": "Data Breach"
+    }
+  ],
+  "started_at": "2026-04-13T18:54:16.759897",
+  "completed_at": "2026-04-13T18:56:06.743147"
+}
