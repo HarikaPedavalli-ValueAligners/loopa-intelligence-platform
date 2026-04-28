@@ -362,6 +362,8 @@ def research_niche_market(
     industry: str,
     sub_industry: str = None,
     sub_sub_industry: str = None,
+    niche_name: str = None,
+    market_context: dict = None,
     max_retries: int = 2,
 ) -> dict:
     """
@@ -373,23 +375,49 @@ def research_niche_market(
         industry         : Top-level industry name.
         sub_industry     : Optional sub-industry name.
         sub_sub_industry : Optional sub-sub-industry name.
+        niche_name       : Optional exact seed niche name.
+        market_context   : Optional source taxonomy metadata for prompt context.
 
     Returns:
         Dictionary containing all variables, both scores,
         priority score, tier, ICP, and top pain points.
     """
-    if sub_sub_industry:
-        niche_name = f"{sub_sub_industry} (within {sub_industry}, {industry})"
+    if niche_name:
+        prompt_niche_name = niche_name
+    elif sub_sub_industry:
+        prompt_niche_name = f"{sub_sub_industry} (within {sub_industry}, {industry})"
     elif sub_industry:
-        niche_name = f"{sub_industry} (within {industry})"
+        prompt_niche_name = f"{sub_industry} (within {industry})"
     else:
-        niche_name = industry
+        prompt_niche_name = industry
+
+    market_context = market_context or {}
+    hierarchy_context = "\n".join(
+        f"- {label}: {value}"
+        for label, value in [
+            ("Ownership sector", market_context.get("ownership_sector")),
+            ("Sector", market_context.get("sector")),
+            ("Industry", industry),
+            ("Sub-industry", sub_industry),
+            ("Sub-sub-industry", sub_sub_industry),
+            ("Sub-sub-sub-industry", market_context.get("sub_sub_sub_industry")),
+            ("Sub-sub-sub-sub-industry", market_context.get("sub_sub_sub_sub_industry")),
+            ("NAICS code", market_context.get("naics_code")),
+            ("Primary buyer role", market_context.get("primary_buyer_role")),
+            ("Likely compliance regimes", market_context.get("likely_compliance_regimes")),
+            ("Recommended cyber themes", market_context.get("recommended_cyber_themes")),
+        ]
+        if value
+    )
 
     prompt = f"""
 You are a senior cybersecurity market analyst specializing in SMB outreach strategy.
 Research the following niche market for cybersecurity targeting and outbound sales purposes:
 
-NICHE MARKET: {niche_name}
+NICHE MARKET: {prompt_niche_name}
+
+SOURCE TAXONOMY CONTEXT:
+{hierarchy_context or "- No additional source taxonomy context provided."}
 
 Return ONLY a valid JSON object with ALL fields below.
 No markdown. No explanation. No code blocks. Raw JSON only.

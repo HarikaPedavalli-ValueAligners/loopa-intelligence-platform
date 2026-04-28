@@ -24,6 +24,31 @@ from database.db_manager import (
 )
 
 
+SEED_IDENTITY_FIELDS = [
+    "industry",
+    "sub_industry",
+    "sub_sub_industry",
+    "sub_sub_sub_industry",
+    "sub_sub_sub_sub_industry",
+    "niche_name",
+    "naics_code",
+    "geography",
+    "ownership_sector",
+    "sector_code",
+    "sub_industry_code",
+    "sub_sub_industry_code",
+    "sub_sub_sub_industry_code",
+    "sub_sub_sub_sub_industry_code",
+    "primary_buyer_role",
+    "likely_compliance_regimes",
+    "conditional_compliance_regimes",
+    "compliance_tag_confidence",
+    "compliance_tag_basis",
+    "recommended_cyber_themes",
+    "regulatory_or_compliance_drivers",
+]
+
+
 # ------------------------------------------------------------
 # Niche Market List
 # ------------------------------------------------------------
@@ -72,6 +97,65 @@ NICHE_MARKETS_TO_RESEARCH = [
 # Batch Processing Engine
 # ------------------------------------------------------------
 
+def _is_rate_limit_error(error: Exception) -> bool:
+    """Returns True when an exception looks like a provider quota/rate limit."""
+    message = str(error).lower()
+    return any(
+        marker in message
+        for marker in [
+            "rate limit",
+            "rate_limit",
+            "error code: 429",
+            "'code': 'rate_limit_exceeded'",
+            '"code": "rate_limit_exceeded"',
+        ]
+    )
+
+
+def _market_components(market) -> dict:
+    """Normalizes tuple or DB market input into one dictionary."""
+    if isinstance(market, dict):
+        return market
+
+    return {
+        "industry": market[0],
+        "sub_industry": market[1] if len(market) > 1 else None,
+        "sub_sub_industry": market[2] if len(market) > 2 else None,
+    }
+
+
+def _market_display_name(market: dict) -> str:
+    """Builds a readable market name without losing deep hierarchy context."""
+    if market.get("niche_name"):
+        return market["niche_name"]
+
+    parts = [
+        market.get("industry"),
+        market.get("sub_industry"),
+        market.get("sub_sub_industry"),
+        market.get("sub_sub_sub_industry"),
+        market.get("sub_sub_sub_sub_industry"),
+    ]
+    return " > ".join(str(part) for part in parts if part)
+
+
+def _apply_seed_identity(data: dict, market: dict) -> dict:
+    """
+    Preserves the imported niche identity while keeping AI enrichment values.
+    This prevents broad model-generated labels from creating duplicate rows.
+    """
+    if not market.get("id"):
+        return data
+
+    for field in SEED_IDENTITY_FIELDS:
+        value = market.get(field)
+        if value not in (None, ""):
+            data[field] = value
+
+    data["geography"] = data.get("geography") or "US"
+    data["source_status"] = "researched"
+    return data
+
 def process_batch(
     niche_markets: list = None,
     delay_seconds: int = 3,
@@ -82,6 +166,7 @@ def process_batch(
     only_failed: bool = False,
     use_database: bool = True,
     ai_retries: int = 2,
+    stop_on_rate_limit: bool = True,
 ) -> dict:
     """
     Researches and saves a list of niche markets.
@@ -96,6 +181,7 @@ def process_batch(
         only_failed   : Process only niches whose latest run item failed.
         use_database  : Read niches from the database when no explicit list is passed.
         ai_retries    : Number of AI output validation retries per niche.
+        stop_on_rate_limit: Stop the batch when provider quota is exhausted.
 
     Returns:
         Dictionary with summary of results.
@@ -135,6 +221,7 @@ def process_batch(
                 "only_failed": only_failed,
                 "limit": limit,
                 "ai_retries": ai_retries,
+                "stop_on_rate_limit": stop_on_rate_limit,
             },
         )
 
@@ -147,6 +234,8 @@ def process_batch(
         "started_at" : datetime.now().isoformat(),
         "source"     : source,
         "run_id"     : run_id,
+        "stopped_early": False,
+        "stop_reason": None,
     }
 
     print(f"\nLoopa Intelligence - Batch Processor")
@@ -156,19 +245,12 @@ def process_batch(
 
     for index, market in enumerate(markets, start=1):
 
-        if isinstance(market, dict):
-            industry         = market.get("industry")
-            sub_industry     = market.get("sub_industry")
-            sub_sub_industry = market.get("sub_sub_industry")
-            niche_market_id  = market.get("id")
-        else:
-            industry         = market[0]
-            sub_industry     = market[1] if len(market) > 1 else None
-            sub_sub_industry = market[2] if len(market) > 2 else None
-            niche_market_id  = None
-
-        parts      = [p for p in [industry, sub_industry, sub_sub_industry] if p]
-        niche_name = " > ".join(parts)
+        market_data      = _market_components(market)
+        industry         = market_data.get("industry")
+        sub_industry     = market_data.get("sub_industry")
+        sub_sub_industry = market_data.get("sub_sub_industry")
+        niche_market_id  = market_data.get("id")
+        niche_name       = _market_display_name(market_data)
 
         print(f"\n[{index}/{total}] {niche_name}")
 
@@ -180,8 +262,11 @@ def process_batch(
                 industry         = industry,
                 sub_industry     = sub_industry,
                 sub_sub_industry = sub_sub_industry,
+                niche_name       = market_data.get("niche_name"),
+                market_context   = market_data,
                 max_retries      = ai_retries,
             )
+            data = _apply_seed_identity(data, market_data)
 
             if verbose:
                 display_results(data)
@@ -189,7 +274,7 @@ def process_batch(
             if save_to_db:
                 niche_id = save_niche_market(data)
                 if run_id:
-                    record_run_item_success(run_id, niche_id, data)
+                    record_run_item_success(run_id, niche_market_id or niche_id, data)
                 print(
                     f"  Saved — "
                     f"Demand: {data['demand_score']} | "
@@ -218,6 +303,11 @@ def process_batch(
                 "niche" : niche_name,
                 "error" : str(e)
             })
+            if stop_on_rate_limit and _is_rate_limit_error(e):
+                results["stopped_early"] = True
+                results["stop_reason"] = "rate_limit"
+                print("  Stopping batch early because the AI provider rate limit was reached.")
+                break
 
         if index < total:
             time.sleep(delay_seconds)
@@ -274,6 +364,9 @@ def display_batch_summary(results: dict) -> None:
         for err in results["errors"]:
             print(f"  - {err['niche']}: {err['error']}")
 
+    if results.get("stopped_early"):
+        print(f"\nStopped early: {results.get('stop_reason')}")
+
     print("=" * 60)
 
 
@@ -308,6 +401,7 @@ if __name__ == "__main__":
     parser.add_argument("--no-save", action="store_true", help="Run without saving to database")
     parser.add_argument("--verbose", action="store_true", help="Print each full niche report")
     parser.add_argument("--ai-retries", type=int, default=2, help="AI output validation retries per niche")
+    parser.add_argument("--continue-on-rate-limit", action="store_true", help="Keep processing after provider rate-limit errors")
     args = parser.parse_args()
 
     results = process_batch(
@@ -319,6 +413,7 @@ if __name__ == "__main__":
         only_failed   = args.only_failed,
         use_database  = not args.seed_list,
         ai_retries    = args.ai_retries,
+        stop_on_rate_limit = not args.continue_on_rate_limit,
     )
 
     display_batch_summary(results)
