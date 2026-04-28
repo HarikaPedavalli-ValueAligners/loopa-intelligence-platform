@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from agents.niche_market_agent import get_ai_provider_order, research_niche_market
+from agents.batch_processor import _configured_ai_label
 
 
 def research_payload():
@@ -78,6 +79,20 @@ class AIProviderTests(unittest.TestCase):
     def test_openai_provider_keeps_groq_fallback(self):
         with patch.dict("os.environ", {"AI_PROVIDER": "openai", "AI_ENABLE_FALLBACK": "true"}, clear=True):
             self.assertEqual(get_ai_provider_order(), ["openai", "groq"])
+
+    def test_gemini_provider_keeps_groq_fallback(self):
+        with patch.dict("os.environ", {"AI_PROVIDER": "gemini", "AI_ENABLE_FALLBACK": "true"}, clear=True):
+            self.assertEqual(get_ai_provider_order(), ["gemini", "groq"])
+
+    def test_vertex_provider_keeps_groq_fallback(self):
+        with patch.dict("os.environ", {"AI_PROVIDER": "vertex", "AI_ENABLE_FALLBACK": "true"}, clear=True):
+            self.assertEqual(get_ai_provider_order(), ["vertex", "groq"])
+
+    def test_configured_ai_label_supports_google_providers(self):
+        with patch.dict("os.environ", {"AI_PROVIDER": "gemini", "GEMINI_MODEL": "gemini-2.5-flash"}, clear=True):
+            self.assertEqual(_configured_ai_label(), "gemini:gemini-2.5-flash")
+        with patch.dict("os.environ", {"AI_PROVIDER": "vertex", "VERTEX_MODEL": "gemini-2.5-pro"}, clear=True):
+            self.assertEqual(_configured_ai_label(), "vertex:gemini-2.5-pro")
 
     @patch("agents.niche_market_agent.generate_ai_response")
     def test_research_records_ai_provider_metadata(self, mock_generate):

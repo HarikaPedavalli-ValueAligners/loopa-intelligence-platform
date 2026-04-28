@@ -102,6 +102,10 @@ def _configured_ai_label() -> str:
     provider = os.getenv("AI_PROVIDER", "groq").strip().lower()
     if provider == "openai":
         model = os.getenv("OPENAI_MODEL", "unset")
+    elif provider == "gemini":
+        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    elif provider == "vertex":
+        model = os.getenv("VERTEX_MODEL") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     else:
         model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     return f"{provider}:{model}"

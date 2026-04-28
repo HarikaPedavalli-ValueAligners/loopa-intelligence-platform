@@ -36,13 +36,21 @@ AZURE_SQL_TRUST_SERVER_CERTIFICATE=no
 For production AI, keep Groq as fallback and switch the primary provider:
 
 ```bash
-AI_PROVIDER=openai
+AI_PROVIDER=gemini
 AI_ENABLE_FALLBACK=true
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
+GEMINI_API_KEY=...
+GEMINI_MODEL=gemini-2.5-flash
+VERTEX_API_KEY=...
+VERTEX_MODEL=gemini-2.5-flash
+GOOGLE_CLOUD_PROJECT=...
+GOOGLE_CLOUD_LOCATION=us-central1
 GROQ_API_KEY=...
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
+
+Supported primary providers are `openai`, `gemini`, `vertex`, and `groq`.
 
 ## Data Files
 

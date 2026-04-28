@@ -56,6 +56,34 @@ def get_openai_client():
     return OpenAI(api_key=api_key)
 
 
+def get_google_genai_client(vertex: bool = False):
+    """Creates a Google Gen AI client for Gemini Developer API or Vertex AI."""
+    try:
+        from google import genai
+    except ImportError as exc:
+        raise RuntimeError(
+            "Missing dependency 'google-genai'. Install requirements with: pip install -r requirements.txt"
+        ) from exc
+
+    if not vertex:
+        api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise RuntimeError("Missing GEMINI_API_KEY or GOOGLE_API_KEY in environment.")
+        return genai.Client(api_key=api_key)
+
+    vertex_api_key = os.getenv("VERTEX_API_KEY")
+    if vertex_api_key:
+        return genai.Client(vertexai=True, api_key=vertex_api_key)
+
+    project = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("VERTEX_PROJECT")
+    location = os.getenv("GOOGLE_CLOUD_LOCATION") or os.getenv("VERTEX_LOCATION") or "us-central1"
+    if not project:
+        raise RuntimeError(
+            "Missing GOOGLE_CLOUD_PROJECT or VERTEX_PROJECT for Vertex AI authentication."
+        )
+    return genai.Client(vertexai=True, project=project, location=location)
+
+
 def get_ai_provider_order() -> list:
     """Returns the configured provider order, keeping Groq as fallback."""
     primary = os.getenv("AI_PROVIDER", "groq").strip().lower()
@@ -80,6 +108,30 @@ def _call_ai_provider(provider: str, prompt: str) -> tuple:
             temperature=0.3,
         )
         return response.choices[0].message.content.strip(), provider, model
+
+    if provider == "gemini":
+        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        response = get_google_genai_client(vertex=False).models.generate_content(
+            model=model,
+            contents=prompt,
+            config={
+                "temperature": 0.3,
+                "response_mime_type": "application/json",
+            },
+        )
+        return response.text.strip(), provider, model
+
+    if provider == "vertex":
+        model = os.getenv("VERTEX_MODEL") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        response = get_google_genai_client(vertex=True).models.generate_content(
+            model=model,
+            contents=prompt,
+            config={
+                "temperature": 0.3,
+                "response_mime_type": "application/json",
+            },
+        )
+        return response.text.strip(), provider, model
 
     if provider == "groq":
         model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")

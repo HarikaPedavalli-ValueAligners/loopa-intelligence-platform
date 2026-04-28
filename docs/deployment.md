@@ -50,13 +50,26 @@ Use environment variables instead of committed config:
 ```text
 ENVIRONMENT=production
 DATABASE_URL=<preferred full SQLAlchemy URL>
-AI_PROVIDER=openai
+AI_PROVIDER=gemini
 AI_ENABLE_FALLBACK=true
 OPENAI_API_KEY=<secret>
 OPENAI_MODEL=<model approved for production batch research>
+GEMINI_API_KEY=<secret>
+GEMINI_MODEL=gemini-2.5-flash
+VERTEX_API_KEY=<optional Vertex express key>
+VERTEX_MODEL=gemini-2.5-flash
+GOOGLE_CLOUD_PROJECT=<required for full Vertex AI>
+GOOGLE_CLOUD_LOCATION=us-central1
 GROQ_API_KEY=<secret>
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
+
+Supported `AI_PROVIDER` values:
+
+- `gemini`: fastest path with a Gemini Developer API key.
+- `vertex`: Google Cloud / Vertex AI path using `VERTEX_API_KEY` or project/location credentials.
+- `openai`: OpenAI path.
+- `groq`: fallback path.
 
 If `DATABASE_URL` is not set, Azure SQL variables are used:
 

@@ -55,12 +55,12 @@ Purpose:
 
 ## Workflow 4: Quota-Gated AI Batch
 
-Trigger: manual approval until OpenAI production quota is validated.
+Trigger: manual approval until Gemini or Vertex production quota is validated.
 
 Command:
 
 ```bash
-export AI_PROVIDER=openai
+export AI_PROVIDER=gemini
 export AI_ENABLE_FALLBACK=true
 python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
 ```
@@ -71,7 +71,7 @@ Guardrails:
 - Increase to `--limit 50` only after a clean run.
 - Keep default rate-limit stop behavior enabled.
 - Do not use `--continue-on-rate-limit` in production.
-- Keep Groq configured as fallback while OpenAI is the primary provider.
+- Keep Groq configured as fallback while Gemini or Vertex is the primary provider.
 
 ## Workflow 5: Azure SQL Preflight and Initial Load
 
