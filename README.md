@@ -118,3 +118,30 @@ Run tests:
 ```bash
 python -m unittest
 ```
+
+## Deployment and Workflow
+
+Deployment assets are included for the next integration phase:
+
+- `Dockerfile` and `docker-compose.yml` for API containerization.
+- `.github/workflows/ci.yml` for unit test and migration validation.
+- `scripts/smoke_check.py` for API health/integration checks.
+- `docs/deployment.md` for local, Docker, and production commands.
+- `docs/opsera_workflow.md` for the first Opsera workflow draft.
+
+Useful Make targets:
+
+```bash
+make test
+make migrate
+make api
+make smoke
+make downstream
+make docker-build
+```
+
+While Groq quota is limited, deploy and run non-AI workflows first:
+
+```bash
+python scheduler.py --run-now --skip-batch
+```
