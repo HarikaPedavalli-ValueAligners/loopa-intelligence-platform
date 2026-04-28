@@ -61,6 +61,7 @@ Command:
 
 ```bash
 export AI_PROVIDER=gemini
+export GEMINI_MODEL=gemini-3-pro-preview
 export AI_ENABLE_FALLBACK=true
 python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
 ```

@@ -41,9 +41,11 @@ AI_ENABLE_FALLBACK=true
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
 GEMINI_API_KEY=...
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3-pro-preview
+GEMINI_THINKING_BUDGET=
 VERTEX_API_KEY=...
-VERTEX_MODEL=gemini-2.5-flash
+VERTEX_MODEL=gemini-3-pro-preview
+VERTEX_THINKING_BUDGET=
 GOOGLE_CLOUD_PROJECT=...
 GOOGLE_CLOUD_LOCATION=us-central1
 GROQ_API_KEY=...
@@ -51,6 +53,7 @@ GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
 Supported primary providers are `openai`, `gemini`, `vertex`, and `groq`.
+For deep research runs, use `gemini-3-pro-preview`; Gemini 3 Pro keeps thinking enabled by default, and optional thinking budget variables can be used if cost/latency tuning is needed.
 
 ## Data Files
 

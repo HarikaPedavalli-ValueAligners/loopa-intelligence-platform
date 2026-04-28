@@ -2,7 +2,11 @@ import json
 import unittest
 from unittest.mock import patch
 
-from agents.niche_market_agent import get_ai_provider_order, research_niche_market
+from agents.niche_market_agent import (
+    _google_generation_config,
+    get_ai_provider_order,
+    research_niche_market,
+)
 from agents.batch_processor import _configured_ai_label
 
 
@@ -89,10 +93,17 @@ class AIProviderTests(unittest.TestCase):
             self.assertEqual(get_ai_provider_order(), ["vertex", "groq"])
 
     def test_configured_ai_label_supports_google_providers(self):
-        with patch.dict("os.environ", {"AI_PROVIDER": "gemini", "GEMINI_MODEL": "gemini-2.5-flash"}, clear=True):
-            self.assertEqual(_configured_ai_label(), "gemini:gemini-2.5-flash")
+        with patch.dict("os.environ", {"AI_PROVIDER": "gemini", "GEMINI_MODEL": "gemini-3-pro-preview"}, clear=True):
+            self.assertEqual(_configured_ai_label(), "gemini:gemini-3-pro-preview")
         with patch.dict("os.environ", {"AI_PROVIDER": "vertex", "VERTEX_MODEL": "gemini-2.5-pro"}, clear=True):
             self.assertEqual(_configured_ai_label(), "vertex:gemini-2.5-pro")
+
+    def test_google_generation_config_supports_thinking_budget(self):
+        with patch.dict("os.environ", {"GEMINI_THINKING_BUDGET": "8192"}, clear=True):
+            self.assertEqual(
+                _google_generation_config("gemini")["thinking_config"],
+                {"thinking_budget": 8192},
+            )
 
     @patch("agents.niche_market_agent.generate_ai_response")
     def test_research_records_ai_provider_metadata(self, mock_generate):

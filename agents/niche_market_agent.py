@@ -96,6 +96,24 @@ def get_ai_provider_order() -> list:
     return providers
 
 
+def _google_generation_config(provider: str) -> dict:
+    """Builds Google generation config with optional thinking budget control."""
+    config = {
+        "temperature": 0.3,
+        "response_mime_type": "application/json",
+    }
+    thinking_budget = (
+        os.getenv(f"{provider.upper()}_THINKING_BUDGET")
+        or os.getenv("GEMINI_THINKING_BUDGET")
+    )
+    if thinking_budget:
+        try:
+            config["thinking_config"] = {"thinking_budget": int(thinking_budget)}
+        except ValueError as exc:
+            raise RuntimeError(f"Invalid {provider.upper()}_THINKING_BUDGET value.") from exc
+    return config
+
+
 def _call_ai_provider(provider: str, prompt: str) -> tuple:
     """Calls one AI provider and returns raw text plus provider metadata."""
     if provider == "openai":
@@ -110,26 +128,22 @@ def _call_ai_provider(provider: str, prompt: str) -> tuple:
         return response.choices[0].message.content.strip(), provider, model
 
     if provider == "gemini":
-        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-        response = get_google_genai_client(vertex=False).models.generate_content(
+        model = os.getenv("GEMINI_MODEL", "gemini-3-pro-preview")
+        client = get_google_genai_client(vertex=False)
+        response = client.models.generate_content(
             model=model,
             contents=prompt,
-            config={
-                "temperature": 0.3,
-                "response_mime_type": "application/json",
-            },
+            config=_google_generation_config("gemini"),
         )
         return response.text.strip(), provider, model
 
     if provider == "vertex":
-        model = os.getenv("VERTEX_MODEL") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-        response = get_google_genai_client(vertex=True).models.generate_content(
+        model = os.getenv("VERTEX_MODEL") or os.getenv("GEMINI_MODEL", "gemini-3-pro-preview")
+        client = get_google_genai_client(vertex=True)
+        response = client.models.generate_content(
             model=model,
             contents=prompt,
-            config={
-                "temperature": 0.3,
-                "response_mime_type": "application/json",
-            },
+            config=_google_generation_config("vertex"),
         )
         return response.text.strip(), provider, model
 
