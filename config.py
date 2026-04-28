@@ -48,10 +48,15 @@ def get_database_url() -> str:
         database = _required_env("AZURE_SQL_DATABASE")
         username = quote_plus(_required_env("AZURE_SQL_USERNAME"))
         password = quote_plus(_required_env("AZURE_SQL_PASSWORD"))
-        driver = quote_plus(os.getenv("AZURE_SQL_DRIVER", "ODBC Driver 17 for SQL Server"))
+        driver = quote_plus(os.getenv("AZURE_SQL_DRIVER", "ODBC Driver 18 for SQL Server"))
+        port = os.getenv("AZURE_SQL_PORT", "1433")
+        encrypt = os.getenv("AZURE_SQL_ENCRYPT", "yes")
+        trust_server_certificate = os.getenv("AZURE_SQL_TRUST_SERVER_CERTIFICATE", "no")
         return (
-            f"mssql+pyodbc://{username}:{password}@{server}/{database}"
+            f"mssql+pyodbc://{username}:{password}@{server}:{port}/{database}"
             f"?driver={driver}"
+            f"&Encrypt={encrypt}"
+            f"&TrustServerCertificate={trust_server_certificate}"
         )
 
     sqlite_path = os.getenv("SQLITE_DB_PATH", "loopa_intelligence.db")

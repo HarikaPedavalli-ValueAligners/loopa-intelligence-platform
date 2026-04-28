@@ -10,7 +10,7 @@ Steps:
 
 1. Checkout repository.
 2. Install Python 3.11.
-3. Install `unixodbc-dev`.
+3. Install `unixodbc-dev` and Microsoft ODBC Driver 18.
 4. Install `requirements.txt`.
 5. Run `python -m unittest`.
 6. Run `python database/migrate.py`.
