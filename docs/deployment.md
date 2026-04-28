@@ -101,6 +101,12 @@ After the SQL firewall allows the current client IP and secrets are loaded into 
 python scripts/check_azure_sql.py
 ```
 
+If local macOS ODBC Driver 18 is unavailable, use the diagnostic fallback:
+
+```bash
+python scripts/check_azure_sql.py --dialect pymssql
+```
+
 Dry-run local row counts before migration:
 
 ```bash
@@ -114,3 +120,4 @@ python scripts/migrate_sqlite_to_azure.py
 ```
 
 Use `--replace` only when intentionally rebuilding the Azure database from the local SQLite copy.
+Use `--recreate` only for a first-time empty production database or a deliberate rebuild.

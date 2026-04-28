@@ -196,7 +196,7 @@ class Vendor(Base):
     product_name                = Column(String(255))
     product_description         = Column(Text)
     target_market               = Column(String(255))
-    pricing_model               = Column(String(100))
+    pricing_model               = Column(Text)
     supported_platforms         = Column(String(255))
     deployment_models           = Column(String(255))
 
