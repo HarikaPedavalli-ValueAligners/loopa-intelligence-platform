@@ -55,11 +55,13 @@ Purpose:
 
 ## Workflow 4: Quota-Gated AI Batch
 
-Trigger: manual approval only until provider quota is upgraded.
+Trigger: manual approval until OpenAI production quota is validated.
 
 Command:
 
 ```bash
+export AI_PROVIDER=openai
+export AI_ENABLE_FALLBACK=true
 python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
 ```
 
@@ -69,6 +71,24 @@ Guardrails:
 - Increase to `--limit 50` only after a clean run.
 - Keep default rate-limit stop behavior enabled.
 - Do not use `--continue-on-rate-limit` in production.
+- Keep Groq configured as fallback while OpenAI is the primary provider.
+
+## Workflow 5: Azure SQL Preflight and Initial Load
+
+Trigger: manual after Key Vault secrets and firewall rules are configured.
+
+Steps:
+
+1. Inject Azure SQL secrets.
+2. Run `python scripts/check_azure_sql.py`.
+3. Run `python scripts/migrate_sqlite_to_azure.py --dry-run`.
+4. For initial load only, run `python scripts/migrate_sqlite_to_azure.py`.
+
+Success criteria:
+
+- Connectivity check passes.
+- Source row counts match expected local database state.
+- Azure target tables are created and populated.
 
 ## Parallel Project Notes
 

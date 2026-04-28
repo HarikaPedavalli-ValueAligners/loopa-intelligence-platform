@@ -40,6 +40,75 @@ def get_groq_client():
     return Groq(api_key=api_key)
 
 
+def get_openai_client():
+    """Creates an OpenAI client lazily so local tests do not require AI deps."""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing OPENAI_API_KEY in environment.")
+
+    try:
+        from openai import OpenAI
+    except ImportError as exc:
+        raise RuntimeError(
+            "Missing dependency 'openai'. Install requirements with: pip install -r requirements.txt"
+        ) from exc
+
+    return OpenAI(api_key=api_key)
+
+
+def get_ai_provider_order() -> list:
+    """Returns the configured provider order, keeping Groq as fallback."""
+    primary = os.getenv("AI_PROVIDER", "groq").strip().lower()
+    fallback_enabled = os.getenv("AI_ENABLE_FALLBACK", "true").strip().lower() not in {"0", "false", "no"}
+
+    providers = [primary]
+    if fallback_enabled and primary != "groq":
+        providers.append("groq")
+
+    return providers
+
+
+def _call_ai_provider(provider: str, prompt: str) -> tuple:
+    """Calls one AI provider and returns raw text plus provider metadata."""
+    if provider == "openai":
+        model = os.getenv("OPENAI_MODEL")
+        if not model:
+            raise RuntimeError("Missing OPENAI_MODEL in environment.")
+        response = get_openai_client().chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+        )
+        return response.choices[0].message.content.strip(), provider, model
+
+    if provider == "groq":
+        model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        response = get_groq_client().chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+        )
+        return response.choices[0].message.content.strip(), provider, model
+
+    raise RuntimeError(f"Unsupported AI provider: {provider}")
+
+
+def generate_ai_response(prompt: str) -> tuple:
+    """
+    Calls the configured AI provider and falls back to Groq when enabled.
+    Returns raw model text, provider name, and model name.
+    """
+    errors = []
+
+    for provider in get_ai_provider_order():
+        try:
+            return _call_ai_provider(provider, prompt)
+        except Exception as exc:
+            errors.append(f"{provider}: {exc}")
+
+    raise RuntimeError("All AI providers failed: " + " | ".join(errors))
+
+
 # ------------------------------------------------------------
 # Scoring Configuration
 # All weights follow Hamid's Prioritization Playbook exactly.
@@ -499,18 +568,12 @@ STRICT RULES:
 - Return raw JSON only — no markdown, no extra text
 """
 
-    client = get_groq_client()
-    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     last_error = None
+    provider = None
+    model = None
 
     for attempt in range(max_retries + 1):
-        response = client.chat.completions.create(
-            model       = model,
-            messages    = [{"role": "user", "content": prompt}],
-            temperature = 0.3,
-        )
-
-        raw = response.choices[0].message.content.strip()
+        raw, provider, model = generate_ai_response(prompt)
 
         try:
             data = json.loads(strip_json_response(raw))
@@ -528,6 +591,7 @@ STRICT RULES:
     data["industry"] = industry
     data["sub_industry"] = sub_industry or ""
     data["sub_sub_industry"] = sub_sub_industry or ""
+    data["ai_provider"] = provider
     data["ai_model"] = model
 
     # Calculate two-layer scores

@@ -33,6 +33,17 @@ AZURE_SQL_ENCRYPT=yes
 AZURE_SQL_TRUST_SERVER_CERTIFICATE=no
 ```
 
+For production AI, keep Groq as fallback and switch the primary provider:
+
+```bash
+AI_PROVIDER=openai
+AI_ENABLE_FALLBACK=true
+OPENAI_API_KEY=...
+OPENAI_MODEL=...
+GROQ_API_KEY=...
+GROQ_MODEL=llama-3.3-70b-versatile
+```
+
 ## Data Files
 
 The vendor Excel files are intentionally ignored by git. Place them in `data/` before running the importer:
@@ -55,6 +66,8 @@ python utils/report_generator.py
 python utils/sales_exporter.py --limit 100 --min-tier 2
 python utils/monitoring.py
 python utils/recalculate_scores.py
+python scripts/check_azure_sql.py
+python scripts/migrate_sqlite_to_azure.py --dry-run
 python scheduler.py --run-now
 ```
 

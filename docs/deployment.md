@@ -50,6 +50,10 @@ Use environment variables instead of committed config:
 ```text
 ENVIRONMENT=production
 DATABASE_URL=<preferred full SQLAlchemy URL>
+AI_PROVIDER=openai
+AI_ENABLE_FALLBACK=true
+OPENAI_API_KEY=<secret>
+OPENAI_MODEL=<model approved for production batch research>
 GROQ_API_KEY=<secret>
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
@@ -88,3 +92,25 @@ python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
 ```
 
 Only run the AI batch when the provider account has enough daily token capacity.
+
+## Azure SQL Preflight
+
+After the SQL firewall allows the current client IP and secrets are loaded into `.env`:
+
+```bash
+python scripts/check_azure_sql.py
+```
+
+Dry-run local row counts before migration:
+
+```bash
+python scripts/migrate_sqlite_to_azure.py --dry-run
+```
+
+Initial Azure load:
+
+```bash
+python scripts/migrate_sqlite_to_azure.py
+```
+
+Use `--replace` only when intentionally rebuilding the Azure database from the local SQLite copy.

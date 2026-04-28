@@ -1,4 +1,4 @@
-.PHONY: setup test migrate api smoke downstream weekly docker-build docker-up docker-down
+.PHONY: setup test migrate api smoke downstream weekly azure-check azure-migrate-dry-run docker-build docker-up docker-down
 
 setup:
 	python3 -m venv .venv
@@ -23,6 +23,12 @@ downstream:
 
 weekly:
 	.venv/bin/python scheduler.py --run-now
+
+azure-check:
+	.venv/bin/python scripts/check_azure_sql.py
+
+azure-migrate-dry-run:
+	.venv/bin/python scripts/migrate_sqlite_to_azure.py --dry-run
 
 docker-build:
 	docker build -t loopa-intelligence-platform .

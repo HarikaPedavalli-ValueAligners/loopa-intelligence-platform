@@ -97,6 +97,16 @@ NICHE_MARKETS_TO_RESEARCH = [
 # Batch Processing Engine
 # ------------------------------------------------------------
 
+def _configured_ai_label() -> str:
+    """Returns provider:model label for run metadata."""
+    provider = os.getenv("AI_PROVIDER", "groq").strip().lower()
+    if provider == "openai":
+        model = os.getenv("OPENAI_MODEL", "unset")
+    else:
+        model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    return f"{provider}:{model}"
+
+
 def _is_rate_limit_error(error: Exception) -> bool:
     """Returns True when an exception looks like a provider quota/rate limit."""
     message = str(error).lower()
@@ -215,7 +225,7 @@ def process_batch(
             total_items=total,
             run_type="batch",
             source=source,
-            ai_model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
+            ai_model=_configured_ai_label(),
             metadata={
                 "resume": resume,
                 "only_failed": only_failed,
