@@ -53,26 +53,29 @@ Purpose:
 - Rebuild monitoring status.
 - Avoid consuming AI quota.
 
-## Workflow 4: Quota-Gated AI Batch
+## Workflow 4: Vertex-Gated AI Batch
 
-Trigger: manual approval until Gemini or Vertex production quota is validated.
+Trigger: manual approval until Vertex production access, billing, and quota are validated.
 
 Command:
 
 ```bash
-export AI_PROVIDER=gemini
-export GEMINI_MODEL=gemini-3-pro-preview
+export AI_PROVIDER=vertex
+export VERTEX_MODEL=gemini-3-pro-preview
+export GOOGLE_CLOUD_PROJECT=<project-id>
+export GOOGLE_CLOUD_LOCATION=<region>
 export AI_ENABLE_FALLBACK=true
-python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
+python agents/batch_processor.py --resume --limit 20 --delay 1 --ai-retries 1
 ```
 
 Guardrails:
 
+- Start with a one-item smoke test.
 - Start with `--limit 20`.
 - Increase to `--limit 50` only after a clean run.
 - Keep default rate-limit stop behavior enabled.
 - Do not use `--continue-on-rate-limit` in production.
-- Keep Groq configured as fallback while Gemini or Vertex is the primary provider.
+- Keep Groq configured as fallback while Vertex is the primary provider.
 
 ## Workflow 5: Azure SQL Preflight and Initial Load
 
@@ -82,8 +85,9 @@ Steps:
 
 1. Inject Azure SQL secrets.
 2. Run `python scripts/check_azure_sql.py`.
-3. Run `python scripts/migrate_sqlite_to_azure.py --dry-run`.
+3. Run `python scripts/migrate_sqlite_to_azure.py --dry-run --prune-orphans`.
 4. For initial load only, run `python scripts/migrate_sqlite_to_azure.py`.
+5. For incremental syncs, run `python scripts/migrate_sqlite_to_azure.py --prune-orphans --upsert`.
 
 Success criteria:
 

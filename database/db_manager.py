@@ -445,6 +445,29 @@ def record_run_item_failure(run_id: int, niche_market_id: int, error_message: st
         session.close()
 
 
+def record_run_item_skipped(run_id: int, niche_market_id: int, reason: str) -> None:
+    """Marks one run item as skipped."""
+    session = get_session()
+
+    try:
+        item = session.query(RunItem).filter_by(
+            run_id=run_id,
+            niche_market_id=niche_market_id,
+        ).first()
+        if not item:
+            item = RunItem(run_id=run_id, niche_market_id=niche_market_id)
+            session.add(item)
+
+        item.status = "skipped"
+        item.error_message = reason
+        item.completed_at = datetime.now()
+        item.last_updated = datetime.now()
+        session.commit()
+
+    finally:
+        session.close()
+
+
 def finish_intelligence_run(run_id: int, status: str = None, error_summary: str = None) -> None:
     """Finalizes an intelligence run using its item counts."""
     session = get_session()

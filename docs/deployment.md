@@ -1,6 +1,6 @@
 # Loopa Deployment Guide
 
-This guide covers the deployable pieces that can move forward even when AI batch processing is waiting on provider quota.
+This guide covers the deployable pieces that can move forward even when AI batch processing is waiting on Vertex production access.
 
 ## Runtime Components
 
@@ -50,17 +50,17 @@ Use environment variables instead of committed config:
 ```text
 ENVIRONMENT=production
 DATABASE_URL=<preferred full SQLAlchemy URL>
-AI_PROVIDER=gemini
+AI_PROVIDER=vertex
 AI_ENABLE_FALLBACK=true
 OPENAI_API_KEY=<secret>
 OPENAI_MODEL=<model approved for production batch research>
 GEMINI_API_KEY=<secret>
 GEMINI_MODEL=gemini-3-pro-preview
 GEMINI_THINKING_BUDGET=
-VERTEX_API_KEY=<optional Vertex express key>
+VERTEX_API_KEY=<optional Vertex express key for local diagnostics>
 VERTEX_MODEL=gemini-3-pro-preview
 VERTEX_THINKING_BUDGET=
-GOOGLE_CLOUD_PROJECT=<required for full Vertex AI>
+GOOGLE_CLOUD_PROJECT=<GCP project ID, not project number>
 GOOGLE_CLOUD_LOCATION=us-central1
 GROQ_API_KEY=<secret>
 GROQ_MODEL=llama-3.3-70b-versatile
@@ -68,8 +68,8 @@ GROQ_MODEL=llama-3.3-70b-versatile
 
 Supported `AI_PROVIDER` values:
 
-- `gemini`: fastest path with a Gemini Developer API key. Use `gemini-3-pro-preview` for internal deep research.
-- `vertex`: Google Cloud / Vertex AI path using `VERTEX_API_KEY` or project/location credentials.
+- `vertex`: production path using GCP project/location credentials, ADC, service account, or Workload Identity.
+- `gemini`: local/dev path with a Gemini Developer API key. Do not use this path for the 1,000+ niche production run.
 - `openai`: OpenAI path.
 - `groq`: fallback path.
 
@@ -100,13 +100,13 @@ Non-AI downstream refresh:
 python scheduler.py --run-now --skip-batch
 ```
 
-Quota-gated AI batch:
+Quota-gated AI batch after Vertex access is validated:
 
 ```bash
-python agents/batch_processor.py --resume --limit 50 --delay 1 --ai-retries 1
+python agents/batch_processor.py --resume --limit 20 --delay 1 --ai-retries 1
 ```
 
-Only run the AI batch when the provider account has enough daily token capacity.
+Start with one item, then 20, then 50. Only continue after quality, cost, quota, and runtime stability are confirmed.
 
 ## Azure SQL Preflight
 
@@ -125,13 +125,19 @@ python scripts/check_azure_sql.py --dialect pymssql
 Dry-run local row counts before migration:
 
 ```bash
-python scripts/migrate_sqlite_to_azure.py --dry-run
+python scripts/migrate_sqlite_to_azure.py --dry-run --prune-orphans
 ```
 
 Initial Azure load:
 
 ```bash
 python scripts/migrate_sqlite_to_azure.py
+```
+
+Incremental Azure sync after local runs:
+
+```bash
+python scripts/migrate_sqlite_to_azure.py --prune-orphans --upsert --dialect pymssql
 ```
 
 Use `--replace` only when intentionally rebuilding the Azure database from the local SQLite copy.

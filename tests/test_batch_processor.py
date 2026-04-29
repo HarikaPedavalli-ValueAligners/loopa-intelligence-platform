@@ -82,6 +82,7 @@ class BatchProcessorTests(unittest.TestCase):
         )
 
         self.assertEqual(results["failed"], 1)
+        self.assertEqual(results["skipped"], 1)
         self.assertTrue(results["stopped_early"])
         self.assertEqual(results["stop_reason"], "rate_limit")
 

@@ -59,7 +59,42 @@ def count_source_rows(source_engine) -> dict:
     with source_engine.connect() as connection:
         for table in TABLES:
             counts[table.name] = len(connection.execute(select(table)).all())
+        valid_matches = connection.execute(text(
+            """
+            SELECT COUNT(*)
+            FROM vendor_pain_point_map vppm
+            JOIN vendors v ON v.id = vppm.vendor_id
+            JOIN pain_points p ON p.id = vppm.pain_point_id
+            """
+        )).scalar()
+        counts["vendor_pain_point_map_valid"] = valid_matches
+        counts["vendor_pain_point_map_orphan"] = counts["vendor_pain_point_map"] - valid_matches
     return counts
+
+
+def prune_orphan_vendor_matches(source_engine, dry_run: bool = False) -> int:
+    orphan_count_sql = text(
+        """
+        SELECT COUNT(*)
+        FROM vendor_pain_point_map vppm
+        LEFT JOIN vendors v ON v.id = vppm.vendor_id
+        LEFT JOIN pain_points p ON p.id = vppm.pain_point_id
+        WHERE v.id IS NULL OR p.id IS NULL
+        """
+    )
+    prune_sql = text(
+        """
+        DELETE FROM vendor_pain_point_map
+        WHERE vendor_id NOT IN (SELECT id FROM vendors)
+           OR pain_point_id NOT IN (SELECT id FROM pain_points)
+        """
+    )
+
+    with source_engine.begin() as connection:
+        orphan_count = connection.execute(orphan_count_sql).scalar()
+        if orphan_count and not dry_run:
+            connection.execute(prune_sql)
+        return orphan_count
 
 
 def source_id_sets(source) -> dict:
@@ -68,6 +103,22 @@ def source_id_sets(source) -> dict:
         "vendors": {row.id for row in source.execute(select(Vendor.__table__.c.id)).all()},
         "pain_points": {row.id for row in source.execute(select(PainPoint.__table__.c.id)).all()},
         "intelligence_runs": {row.id for row in source.execute(select(IntelligenceRun.__table__.c.id)).all()},
+    }
+
+
+def target_id_set(target, table) -> set:
+    return {row.id for row in target.execute(select(table.c.id)).all()}
+
+
+def target_vendor_match_keys(target) -> set:
+    return {
+        (row.vendor_id, row.pain_point_id)
+        for row in target.execute(
+            select(
+                VendorPainPointMap.__table__.c.vendor_id,
+                VendorPainPointMap.__table__.c.pain_point_id,
+            )
+        ).all()
     }
 
 
@@ -95,9 +146,16 @@ def migrate(
     dry_run: bool = False,
     dialect: str = "pyodbc",
     recreate: bool = False,
+    upsert: bool = False,
+    prune_orphans: bool = False,
 ) -> dict:
     source_engine = create_engine(sqlite_url(source_path))
+    pruned_count = 0
+    if prune_orphans:
+        pruned_count = prune_orphan_vendor_matches(source_engine, dry_run=dry_run)
     counts = count_source_rows(source_engine)
+    if prune_orphans:
+        counts["vendor_pain_point_map_would_prune" if dry_run else "vendor_pain_point_map_pruned"] = pruned_count
 
     if dry_run:
         return counts
@@ -123,6 +181,63 @@ def migrate(
             skipped_count = original_count - len(rows)
             if skipped_count:
                 print(f"Skipping {skipped_count} orphan rows from {table.name}")
+
+            if upsert:
+                existing_ids = target_id_set(target, table)
+                insert_rows = []
+                update_rows = []
+                natural_key_updates = []
+
+                existing_vendor_match_keys = (
+                    target_vendor_match_keys(target)
+                    if table.name == "vendor_pain_point_map"
+                    else set()
+                )
+
+                for row in rows:
+                    if row.get("id") in existing_ids:
+                        update_rows.append(row)
+                    elif table.name == "vendor_pain_point_map" and (
+                        row.get("vendor_id"),
+                        row.get("pain_point_id"),
+                    ) in existing_vendor_match_keys:
+                        natural_key_updates.append(row)
+                    else:
+                        insert_rows.append(row)
+
+                for row in update_rows:
+                    row_id = row["id"]
+                    values = {key: value for key, value in row.items() if key != "id"}
+                    if values:
+                        target.execute(
+                            table.update()
+                            .where(table.c.id == row_id)
+                            .values(**values)
+                        )
+
+                for row in natural_key_updates:
+                    values = {key: value for key, value in row.items() if key != "id"}
+                    if values:
+                        target.execute(
+                            table.update()
+                            .where(table.c.vendor_id == row["vendor_id"])
+                            .where(table.c.pain_point_id == row["pain_point_id"])
+                            .values(**values)
+                        )
+
+                if insert_rows:
+                    identity_insert = target.dialect.name == "mssql" and table.name in IDENTITY_TABLES
+                    if identity_insert:
+                        target.execute(text(f"SET IDENTITY_INSERT {table.name} ON"))
+                    target.execute(table.insert(), insert_rows)
+                    if identity_insert:
+                        target.execute(text(f"SET IDENTITY_INSERT {table.name} OFF"))
+
+                inserted_counts[table.name] = len(insert_rows)
+                natural = f", natural-key updated {len(natural_key_updates)}" if natural_key_updates else ""
+                print(f"{table.name}: updated {len(update_rows)}{natural}, inserted {len(insert_rows)}")
+                continue
+
             if rows:
                 identity_insert = target.dialect.name == "mssql" and table.name in IDENTITY_TABLES
                 if identity_insert:
@@ -142,6 +257,16 @@ def main() -> int:
     parser.add_argument("--recreate", action="store_true", help="Drop and recreate target tables before insert")
     parser.add_argument("--dry-run", action="store_true", help="Only count local source rows")
     parser.add_argument(
+        "--upsert",
+        action="store_true",
+        help="Update rows that already exist in Azure and insert rows missing by primary key",
+    )
+    parser.add_argument(
+        "--prune-orphans",
+        action="store_true",
+        help="Delete local vendor matches that reference missing vendors or pain points before migrating",
+    )
+    parser.add_argument(
         "--dialect",
         choices=["pyodbc", "pymssql"],
         default="pyodbc",
@@ -155,6 +280,8 @@ def main() -> int:
         dry_run=args.dry_run,
         dialect=args.dialect,
         recreate=args.recreate,
+        upsert=args.upsert,
+        prune_orphans=args.prune_orphans,
     )
     print("SQLite to Azure migration plan" if args.dry_run else "SQLite to Azure migration complete")
     for table_name, count in counts.items():

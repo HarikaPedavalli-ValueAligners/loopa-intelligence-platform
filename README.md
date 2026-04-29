@@ -33,10 +33,12 @@ AZURE_SQL_ENCRYPT=yes
 AZURE_SQL_TRUST_SERVER_CERTIFICATE=no
 ```
 
-For production AI, keep Groq as fallback and switch the primary provider:
+For production AI, use Vertex AI once the GCP project ID, region, billing,
+and ADC/service-account access are confirmed. Keep Developer API keys for
+local experiments only.
 
 ```bash
-AI_PROVIDER=gemini
+AI_PROVIDER=vertex
 AI_ENABLE_FALLBACK=true
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
@@ -54,6 +56,19 @@ GROQ_MODEL=llama-3.3-70b-versatile
 
 Supported primary providers are `openai`, `gemini`, `vertex`, and `groq`.
 For deep research runs, use `gemini-3-pro-preview`; Gemini 3 Pro keeps thinking enabled by default, and optional thinking budget variables can be used if cost/latency tuning is needed.
+
+## Current Operational Snapshot
+
+As of the latest local/Azure sync:
+
+- Niche market seeds: 1,032.
+- Researched niches with generated pain points: 77.
+- Pain points: 231.
+- Vendors: 3,431.
+- Valid vendor matches: 529.
+- Latest batch run: run 11, `completed_with_errors`, 29 successes, 1 failure, stopped by provider quota.
+- Azure SQL is reachable from the allowed network and has been synced with the cleaned local dataset.
+- Production AI is paused pending Vertex project ID, region, billing/credits confirmation, and ADC/service-account access.
 
 ## Data Files
 
@@ -79,6 +94,7 @@ python utils/monitoring.py
 python utils/recalculate_scores.py
 python scripts/check_azure_sql.py
 python scripts/migrate_sqlite_to_azure.py --dry-run
+python scripts/migrate_sqlite_to_azure.py --prune-orphans --upsert --dialect pymssql
 python scheduler.py --run-now
 ```
 

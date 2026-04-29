@@ -17,6 +17,7 @@ from database.db_manager import (
     get_database_stats,
     get_niche_markets_for_batch,
     record_run_item_failure,
+    record_run_item_skipped,
     record_run_item_start,
     record_run_item_success,
     save_niche_market,
@@ -245,6 +246,7 @@ def process_batch(
         "failed"     : 0,
         "errors"     : [],
         "processed"  : [],
+        "skipped"    : 0,
         "started_at" : datetime.now().isoformat(),
         "source"     : source,
         "run_id"     : run_id,
@@ -320,6 +322,18 @@ def process_batch(
             if stop_on_rate_limit and _is_rate_limit_error(e):
                 results["stopped_early"] = True
                 results["stop_reason"] = "rate_limit"
+                skipped_markets = markets[index:]
+                results["skipped"] += len(skipped_markets)
+                if run_id:
+                    for skipped_market in skipped_markets:
+                        skipped_data = _market_components(skipped_market)
+                        skipped_id = skipped_data.get("id")
+                        if skipped_id:
+                            record_run_item_skipped(
+                                run_id,
+                                skipped_id,
+                                "Skipped because the AI provider rate limit stopped the batch.",
+                            )
                 print("  Stopping batch early because the AI provider rate limit was reached.")
                 break
 
@@ -346,6 +360,7 @@ def display_batch_summary(results: dict) -> None:
     print(f"Total    : {results['total']}")
     print(f"Success  : {results['success']}")
     print(f"Failed   : {results['failed']}")
+    print(f"Skipped  : {results.get('skipped', 0)}")
     print(f"Source   : {results.get('source')}")
     if results.get("run_id"):
         print(f"Run ID   : {results['run_id']}")
