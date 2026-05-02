@@ -120,6 +120,24 @@ class AIProviderTests(unittest.TestCase):
         self.assertIn(result["priority_tier"], {1, 2, 3})
         self.assertIsNotNone(result["priority_score"])
 
+    @patch("agents.niche_market_agent.generate_ai_response")
+    def test_research_retry_includes_validation_feedback(self, mock_generate):
+        invalid_payload = research_payload()
+        invalid_payload["cagr"] = 250
+        valid_payload = research_payload()
+        valid_payload["cagr"] = 4
+        mock_generate.side_effect = [
+            (json.dumps(invalid_payload), "vertex", "gemini-2.5-pro"),
+            (json.dumps(valid_payload), "vertex", "gemini-2.5-pro"),
+        ]
+
+        result = research_niche_market("Mining", "Coal Mining", max_retries=1)
+
+        self.assertEqual(result["cagr"], 4)
+        second_prompt = mock_generate.call_args_list[1].args[0]
+        self.assertIn("PREVIOUS OUTPUT FAILED VALIDATION", second_prompt)
+        self.assertIn("cagr must be between 0 and 100", second_prompt)
+
 
 if __name__ == "__main__":
     unittest.main()

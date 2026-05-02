@@ -342,6 +342,17 @@ def strip_json_response(raw: str) -> str:
     return text[start:end + 1]
 
 
+def _prompt_with_validation_feedback(prompt: str, error: Exception) -> str:
+    """Adds concrete validation feedback before retrying an AI research call."""
+    return (
+        f"{prompt}\n\n"
+        "PREVIOUS OUTPUT FAILED VALIDATION:\n"
+        f"- {error}\n\n"
+        "Retry with a corrected raw JSON object. Preserve the requested schema, "
+        "fix the invalid field, and do not include markdown or explanation."
+    )
+
+
 def validate_research_output(data: dict) -> dict:
     """Validates and normalizes the AI research JSON contract."""
     if not isinstance(data, dict):
@@ -571,7 +582,7 @@ No markdown. No explanation. No code blocks. Raw JSON only.
     "attack_records"                : <integer 1-10>,
     "digitalization_level"          : <integer 1-10>,
     "sme_revenue_contribution"      : <percentage 0-100>,
-    "cagr"                          : <annual growth rate as percentage>,
+    "cagr"                          : <annual market growth percentage, usually 0-20 for mature industries>,
     "cybersecurity_readiness"       : <integer 1-10>,
     "industry_size"                 : <market size in USD billions>,
     "smb_percentage"                : <percentage 0-100>,
@@ -629,6 +640,7 @@ No markdown. No explanation. No code blocks. Raw JSON only.
 STRICT RULES:
 - All 1-10 scale fields must be integers between 1 and 10
 - All percentage fields must be between 0 and 100
+- cagr must be an annual market growth percentage, not market size, basis points, or a multiplier
 - compliance_audit_drivers must be exactly "Yes" or "No"
 - Base all values on real cybersecurity research and market data
 - Return raw JSON only — no markdown, no extra text
@@ -639,7 +651,11 @@ STRICT RULES:
     model = None
 
     for attempt in range(max_retries + 1):
-        raw, provider, model = generate_ai_response(prompt)
+        attempt_prompt = (
+            prompt if attempt == 0 or last_error is None
+            else _prompt_with_validation_feedback(prompt, last_error)
+        )
+        raw, provider, model = generate_ai_response(attempt_prompt)
 
         try:
             data = json.loads(strip_json_response(raw))
