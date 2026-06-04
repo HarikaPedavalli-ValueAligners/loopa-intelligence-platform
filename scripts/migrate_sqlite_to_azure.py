@@ -10,13 +10,23 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PROJECT_ROOT, get_database_url
 from database.schema import (
+    AccountLead,
     Base,
+    DataQualityFinding,
+    DataQualityRun,
     IntelligenceRun,
     NicheMarket,
+    NicheRadarScore,
+    NicheRadarScoreHistory,
+    NicheRadarVariable,
     PainPoint,
     RunItem,
     Vendor,
+    VendorAlert,
+    VendorIntelligenceProfile,
+    VendorIntelligenceVariable,
     VendorPainPointMap,
+    VendorScoreHistory,
 )
 
 
@@ -27,6 +37,16 @@ TABLES = [
     PainPoint.__table__,
     RunItem.__table__,
     VendorPainPointMap.__table__,
+    VendorIntelligenceProfile.__table__,
+    VendorIntelligenceVariable.__table__,
+    VendorScoreHistory.__table__,
+    VendorAlert.__table__,
+    NicheRadarScore.__table__,
+    NicheRadarVariable.__table__,
+    NicheRadarScoreHistory.__table__,
+    AccountLead.__table__,
+    DataQualityRun.__table__,
+    DataQualityFinding.__table__,
 ]
 
 IDENTITY_TABLES = {
@@ -36,6 +56,16 @@ IDENTITY_TABLES = {
     "pain_points",
     "run_items",
     "vendor_pain_point_map",
+    "vendor_intelligence_profiles",
+    "vendor_intelligence_variables",
+    "vendor_score_history",
+    "vendor_alerts",
+    "niche_radar_scores",
+    "niche_radar_variables",
+    "niche_radar_score_history",
+    "account_leads",
+    "data_quality_runs",
+    "data_quality_findings",
 }
 
 
@@ -54,21 +84,34 @@ def pymssql_database_url() -> str:
     return f"mssql+pymssql://{username}:{password}@{server}:1433/{database}"
 
 
-def count_source_rows(source_engine) -> dict:
+def selected_tables(table_names: str = None) -> list:
+    if not table_names:
+        return TABLES
+    requested = {name.strip() for name in table_names.split(",") if name.strip()}
+    known = {table.name: table for table in TABLES}
+    unknown = sorted(requested - set(known))
+    if unknown:
+        raise ValueError(f"Unknown table names: {', '.join(unknown)}")
+    return [table for table in TABLES if table.name in requested]
+
+
+def count_source_rows(source_engine, tables: list = None) -> dict:
+    tables = tables or TABLES
     counts = {}
     with source_engine.connect() as connection:
-        for table in TABLES:
+        for table in tables:
             counts[table.name] = len(connection.execute(select(table)).all())
-        valid_matches = connection.execute(text(
-            """
-            SELECT COUNT(*)
-            FROM vendor_pain_point_map vppm
-            JOIN vendors v ON v.id = vppm.vendor_id
-            JOIN pain_points p ON p.id = vppm.pain_point_id
-            """
-        )).scalar()
-        counts["vendor_pain_point_map_valid"] = valid_matches
-        counts["vendor_pain_point_map_orphan"] = counts["vendor_pain_point_map"] - valid_matches
+        if any(table.name == "vendor_pain_point_map" for table in tables):
+            valid_matches = connection.execute(text(
+                """
+                SELECT COUNT(*)
+                FROM vendor_pain_point_map vppm
+                JOIN vendors v ON v.id = vppm.vendor_id
+                JOIN pain_points p ON p.id = vppm.pain_point_id
+                """
+            )).scalar()
+            counts["vendor_pain_point_map_valid"] = valid_matches
+            counts["vendor_pain_point_map_orphan"] = counts["vendor_pain_point_map"] - valid_matches
     return counts
 
 
@@ -103,6 +146,15 @@ def source_id_sets(source) -> dict:
         "vendors": {row.id for row in source.execute(select(Vendor.__table__.c.id)).all()},
         "pain_points": {row.id for row in source.execute(select(PainPoint.__table__.c.id)).all()},
         "intelligence_runs": {row.id for row in source.execute(select(IntelligenceRun.__table__.c.id)).all()},
+        "vendor_intelligence_profiles": {
+            row.id for row in source.execute(select(VendorIntelligenceProfile.__table__.c.id)).all()
+        },
+        "niche_radar_scores": {
+            row.id for row in source.execute(select(NicheRadarScore.__table__.c.id)).all()
+        },
+        "data_quality_runs": {
+            row.id for row in source.execute(select(DataQualityRun.__table__.c.id)).all()
+        },
     }
 
 
@@ -137,6 +189,28 @@ def filter_rows(table_name: str, rows: list, ids: dict) -> list:
             if row.get("vendor_id") in ids["vendors"]
             and row.get("pain_point_id") in ids["pain_points"]
         ]
+    if table_name == "vendor_intelligence_profiles":
+        return [row for row in rows if row.get("vendor_id") in ids["vendors"]]
+    if table_name in {"vendor_intelligence_variables", "vendor_score_history", "vendor_alerts"}:
+        return [
+            row for row in rows
+            if row.get("profile_id") in ids["vendor_intelligence_profiles"]
+        ]
+    if table_name == "niche_radar_scores":
+        return [row for row in rows if row.get("niche_market_id") in ids["niche_markets"]]
+    if table_name in {"niche_radar_variables", "niche_radar_score_history"}:
+        return [
+            row for row in rows
+            if row.get("score_id") in ids["niche_radar_scores"]
+        ]
+    if table_name == "account_leads":
+        return [
+            row for row in rows
+            if row.get("niche_market_id") is None
+            or row.get("niche_market_id") in ids["niche_markets"]
+        ]
+    if table_name == "data_quality_findings":
+        return [row for row in rows if row.get("run_id") in ids["data_quality_runs"]]
     return rows
 
 
@@ -148,12 +222,14 @@ def migrate(
     recreate: bool = False,
     upsert: bool = False,
     prune_orphans: bool = False,
+    table_names: str = None,
 ) -> dict:
+    tables = selected_tables(table_names)
     source_engine = create_engine(sqlite_url(source_path))
     pruned_count = 0
     if prune_orphans:
         pruned_count = prune_orphan_vendor_matches(source_engine, dry_run=dry_run)
-    counts = count_source_rows(source_engine)
+    counts = count_source_rows(source_engine, tables)
     if prune_orphans:
         counts["vendor_pain_point_map_would_prune" if dry_run else "vendor_pain_point_map_pruned"] = pruned_count
 
@@ -171,10 +247,10 @@ def migrate(
         ids = source_id_sets(source)
         inserted_counts = {}
         if replace:
-            for table in reversed(TABLES):
+            for table in reversed(tables):
                 target.execute(table.delete())
 
-        for table in TABLES:
+        for table in tables:
             rows = [dict(row._mapping) for row in source.execute(select(table)).all()]
             original_count = len(rows)
             rows = filter_rows(table.name, rows, ids)
@@ -272,6 +348,10 @@ def main() -> int:
         default="pyodbc",
         help="Use pyodbc for production parity or pymssql for local diagnostics.",
     )
+    parser.add_argument(
+        "--tables",
+        help="Comma-separated subset of tables to migrate, e.g. account_leads,data_quality_runs,data_quality_findings",
+    )
     args = parser.parse_args()
 
     counts = migrate(
@@ -282,6 +362,7 @@ def main() -> int:
         recreate=args.recreate,
         upsert=args.upsert,
         prune_orphans=args.prune_orphans,
+        table_names=args.tables,
     )
     print("SQLite to Azure migration plan" if args.dry_run else "SQLite to Azure migration complete")
     for table_name, count in counts.items():

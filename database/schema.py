@@ -120,6 +120,12 @@ class NicheMarket(Base):
         cascade="all, delete-orphan",
     )
     run_items                   = relationship("RunItem", back_populates="niche_market")
+    niche_radar_score           = relationship(
+        "NicheRadarScore",
+        back_populates="niche_market",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
 
 
 class PainPoint(Base):
@@ -224,6 +230,146 @@ class Vendor(Base):
         cascade="all, delete-orphan",
     )
 
+    intelligence_profile        = relationship(
+        "VendorIntelligenceProfile",
+        back_populates="vendor",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+
+class VendorIntelligenceProfile(Base):
+    """
+    VendorScope Phase 0 profile.
+    One canonical intelligence profile per vendor, seeded from the existing
+    Loopa vendor catalog before external enrichment connectors are added.
+    """
+    __tablename__ = "vendor_intelligence_profiles"
+    __table_args__ = (
+        UniqueConstraint("vendor_id", name="uq_vendor_intelligence_vendor"),
+        Index("ix_vendor_intelligence_status", "record_status"),
+        Index("ix_vendor_intelligence_vqs", "vendor_quality_score"),
+        Index("ix_vendor_intelligence_confidence", "match_confidence"),
+    )
+
+    id                          = Column(Integer, primary_key=True, autoincrement=True)
+    vendor_id                   = Column(Integer, ForeignKey("vendors.id", ondelete="CASCADE"), nullable=False)
+
+    vendor_canonical_id         = Column(String(255), nullable=False)
+    canonical_name              = Column(String(255), nullable=False)
+    primary_domain              = Column(String(255))
+    record_status               = Column(String(50), default="discovered")
+    readiness_status            = Column(String(50), default="Submission Incomplete")
+
+    trust_score                 = Column(Float, default=0.0)
+    fit_score                   = Column(Float, default=0.0)
+    operational_score           = Column(Float, default=0.0)
+    vendor_quality_score        = Column(Float, default=0.0)
+    match_confidence            = Column(String(50), default="low")
+
+    tier_a_gate_status          = Column(String(50), default="needs_review")
+    tier_a_missing              = Column(Text)
+    tier_b_populated_count      = Column(Integer, default=0)
+    total_variable_count        = Column(Integer, default=80)
+    variable_coverage_pct       = Column(Float, default=0.0)
+    avg_match_score             = Column(Float)
+    strong_match_count          = Column(Integer, default=0)
+    medium_match_count          = Column(Integer, default=0)
+    total_match_count           = Column(Integer, default=0)
+
+    source_summary              = Column(Text)
+    last_scored_at              = Column(DateTime)
+    last_enriched_at            = Column(DateTime)
+    created_at                  = Column(DateTime, default=func.now())
+    last_updated                = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    vendor                      = relationship("Vendor", back_populates="intelligence_profile")
+    variables                   = relationship(
+        "VendorIntelligenceVariable",
+        back_populates="profile",
+        cascade="all, delete-orphan",
+    )
+    score_history               = relationship(
+        "VendorScoreHistory",
+        back_populates="profile",
+        cascade="all, delete-orphan",
+    )
+    alerts                      = relationship(
+        "VendorAlert",
+        back_populates="profile",
+        cascade="all, delete-orphan",
+    )
+
+
+class VendorIntelligenceVariable(Base):
+    """Stores VendorScope variable values with source and provenance."""
+    __tablename__ = "vendor_intelligence_variables"
+    __table_args__ = (
+        UniqueConstraint("profile_id", "variable_name", name="uq_vendor_variable_profile_name"),
+        Index("ix_vendor_variable_name", "variable_name"),
+        Index("ix_vendor_variable_refresh", "refresh_cadence"),
+    )
+
+    id                          = Column(Integer, primary_key=True, autoincrement=True)
+    profile_id                  = Column(Integer, ForeignKey("vendor_intelligence_profiles.id", ondelete="CASCADE"), nullable=False)
+    variable_name               = Column(String(255), nullable=False)
+    variable_category           = Column(String(255))
+    tier                        = Column(String(50))
+    value_text                  = Column(Text)
+    value_number                = Column(Float)
+    value_bool                  = Column(Boolean)
+    source_type                 = Column(String(100), default="existing_vendor_catalog")
+    source_url                  = Column(Text)
+    confidence                  = Column(String(50), default="catalog")
+    refresh_cadence             = Column(String(50))
+    prior_value                 = Column(Text)
+    collected_at                = Column(DateTime, default=func.now())
+    created_at                  = Column(DateTime, default=func.now())
+    last_updated                = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    profile                     = relationship("VendorIntelligenceProfile", back_populates="variables")
+
+
+class VendorScoreHistory(Base):
+    """Append-only VendorScope score snapshots."""
+    __tablename__ = "vendor_score_history"
+    __table_args__ = (
+        Index("ix_vendor_score_history_profile", "profile_id", "scored_at"),
+    )
+
+    id                          = Column(Integer, primary_key=True, autoincrement=True)
+    profile_id                  = Column(Integer, ForeignKey("vendor_intelligence_profiles.id", ondelete="CASCADE"), nullable=False)
+    trust_score                 = Column(Float)
+    fit_score                   = Column(Float)
+    operational_score           = Column(Float)
+    vendor_quality_score        = Column(Float)
+    match_confidence            = Column(String(50))
+    score_reason                = Column(Text)
+    scored_at                   = Column(DateTime, default=func.now())
+
+    profile                     = relationship("VendorIntelligenceProfile", back_populates="score_history")
+
+
+class VendorAlert(Base):
+    """Review flags and future alert records produced by VendorScope."""
+    __tablename__ = "vendor_alerts"
+    __table_args__ = (
+        Index("ix_vendor_alert_profile", "profile_id"),
+        Index("ix_vendor_alert_status", "status"),
+        Index("ix_vendor_alert_severity", "severity"),
+    )
+
+    id                          = Column(Integer, primary_key=True, autoincrement=True)
+    profile_id                  = Column(Integer, ForeignKey("vendor_intelligence_profiles.id", ondelete="CASCADE"), nullable=False)
+    alert_type                  = Column(String(100), nullable=False)
+    severity                    = Column(String(50), default="info")
+    status                      = Column(String(50), default="open")
+    message                     = Column(Text)
+    created_at                  = Column(DateTime, default=func.now())
+    resolved_at                 = Column(DateTime)
+
+    profile                     = relationship("VendorIntelligenceProfile", back_populates="alerts")
+
 
 class VendorPainPointMap(Base):
     """
@@ -311,6 +457,213 @@ class RunItem(Base):
 
     run                 = relationship("IntelligenceRun", back_populates="items")
     niche_market        = relationship("NicheMarket", back_populates="run_items")
+
+
+class NicheRadarScore(Base):
+    """
+    NicheRadar Phase 0 score.
+    One row per niche market, computed from existing Loopa research output and
+    the current vendor-supply gate before account discovery connectors exist.
+    """
+    __tablename__ = "niche_radar_scores"
+    __table_args__ = (
+        UniqueConstraint("niche_market_id", name="uq_niche_radar_score_niche"),
+        Index("ix_niche_radar_tier", "refined_tier"),
+        Index("ix_niche_radar_nps", "nps_va"),
+        Index("ix_niche_radar_vendor_gate", "vendor_supply_gate_status"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    niche_market_id                 = Column(Integer, ForeignKey("niche_markets.id", ondelete="CASCADE"), nullable=False)
+
+    vulnerability_score             = Column(Float, default=0.0)
+    payability_score                = Column(Float, default=0.0)
+    reachability_score              = Column(Float, default=0.0)
+    nps_va                          = Column(Float, default=0.0)
+    refined_tier                    = Column(String(50))
+    refined_tier_rank               = Column(Integer)
+    priority_watchlist_status       = Column(String(50), default="")
+
+    marketplace_vendor_count_serving_niche = Column(Integer, default=0)
+    top_pain_point_coverage_pct     = Column(Float, default=0.0)
+    avg_match_score_for_niche       = Column(Float, default=0.0)
+    vendor_supply_gate_status       = Column(String(50), default="fail")
+    vendor_supply_gap_reason        = Column(Text)
+
+    top_pain_point_count            = Column(Integer, default=0)
+    covered_top_pain_point_count    = Column(Integer, default=0)
+    strong_match_count              = Column(Integer, default=0)
+    medium_match_count              = Column(Integer, default=0)
+    total_match_count               = Column(Integer, default=0)
+
+    score_basis                     = Column(Text)
+    source_summary                  = Column(Text)
+    last_scored_at                  = Column(DateTime)
+    created_at                      = Column(DateTime, default=func.now())
+    last_updated                    = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    niche_market                    = relationship("NicheMarket", back_populates="niche_radar_score")
+    variables                       = relationship(
+        "NicheRadarVariable",
+        back_populates="score",
+        cascade="all, delete-orphan",
+    )
+    score_history                   = relationship(
+        "NicheRadarScoreHistory",
+        back_populates="score",
+        cascade="all, delete-orphan",
+    )
+
+
+class NicheRadarVariable(Base):
+    """Stores NicheRadar variable values with source and provenance."""
+    __tablename__ = "niche_radar_variables"
+    __table_args__ = (
+        UniqueConstraint("score_id", "variable_name", name="uq_niche_radar_variable_score_name"),
+        Index("ix_niche_radar_variable_name", "variable_name"),
+        Index("ix_niche_radar_variable_refresh", "refresh_cadence"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    score_id                        = Column(Integer, ForeignKey("niche_radar_scores.id", ondelete="CASCADE"), nullable=False)
+    variable_name                   = Column(String(255), nullable=False)
+    variable_category               = Column(String(255))
+    tier                            = Column(String(50))
+    value_text                      = Column(Text)
+    value_number                    = Column(Float)
+    value_bool                      = Column(Boolean)
+    source_type                     = Column(String(100), default="existing_loopa_research")
+    source_url                      = Column(Text)
+    confidence                      = Column(String(50), default="catalog")
+    refresh_cadence                 = Column(String(50))
+    prior_value                     = Column(Text)
+    collected_at                    = Column(DateTime, default=func.now())
+    created_at                      = Column(DateTime, default=func.now())
+    last_updated                    = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    score                           = relationship("NicheRadarScore", back_populates="variables")
+
+
+class NicheRadarScoreHistory(Base):
+    """Append-only NicheRadar score snapshots."""
+    __tablename__ = "niche_radar_score_history"
+    __table_args__ = (
+        Index("ix_niche_radar_history_score", "score_id", "scored_at"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    score_id                        = Column(Integer, ForeignKey("niche_radar_scores.id", ondelete="CASCADE"), nullable=False)
+    vulnerability_score             = Column(Float)
+    payability_score                = Column(Float)
+    reachability_score              = Column(Float)
+    nps_va                          = Column(Float)
+    refined_tier                    = Column(String(50))
+    priority_watchlist_status       = Column(String(50))
+    vendor_supply_gate_status       = Column(String(50))
+    score_reason                    = Column(Text)
+    scored_at                       = Column(DateTime, default=func.now())
+
+    score                           = relationship("NicheRadarScore", back_populates="score_history")
+
+
+class AccountLead(Base):
+    """
+    Placeholder for future NicheRadar account discovery output.
+    Phase 0 creates the schema only; rows are added once account data sources
+    such as Apollo, ZoomInfo, D&B, or state registries are approved.
+    """
+    __tablename__ = "account_leads"
+    __table_args__ = (
+        UniqueConstraint("account_canonical_id", name="uq_account_lead_canonical_id"),
+        Index("ix_account_lead_niche", "niche_market_id"),
+        Index("ix_account_lead_status", "lead_status"),
+        Index("ix_account_lead_score", "lead_score"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    niche_market_id                 = Column(Integer, ForeignKey("niche_markets.id", ondelete="SET NULL"))
+    account_canonical_id            = Column(String(255), nullable=False)
+    company_legal_name              = Column(String(255))
+    dba_names                       = Column(Text)
+    state                           = Column(String(50))
+    headquarters_address            = Column(Text)
+    employee_count_estimated        = Column(Integer)
+    revenue_estimated_usd           = Column(Float)
+    years_in_business               = Column(Integer)
+    decision_maker_name             = Column(String(255))
+    decision_maker_title            = Column(String(255))
+    email                           = Column(String(255))
+    linkedin_url                    = Column(Text)
+    phone                           = Column(String(100))
+    recent_trigger_type             = Column(String(100))
+    recent_trigger_date             = Column(DateTime)
+    recent_trigger_summary          = Column(Text)
+    lead_score                      = Column(Float)
+    lead_status                     = Column(String(50))
+    recommended_track               = Column(String(100))
+    assigned_owner                  = Column(String(255))
+    next_action                     = Column(Text)
+    next_action_due                 = Column(DateTime)
+    cta_url                         = Column(Text)
+    last_engagement_at              = Column(DateTime)
+    source_summary                  = Column(Text)
+    created_at                      = Column(DateTime, default=func.now())
+    last_updated                    = Column(DateTime, default=func.now(), onupdate=func.now())
+
+
+class DataQualityRun(Base):
+    """
+    Stores data quality gate results across Loopa core, VendorScope, and
+    NicheRadar outputs before downstream enrichment or sales actions use them.
+    """
+    __tablename__ = "data_quality_runs"
+    __table_args__ = (
+        Index("ix_data_quality_run_target", "target"),
+        Index("ix_data_quality_run_status", "status"),
+        Index("ix_data_quality_run_created", "created_at"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    target                          = Column(String(100), nullable=False)
+    status                          = Column(String(50), nullable=False)
+    quality_score                   = Column(Float, default=0.0)
+    critical_count                  = Column(Integer, default=0)
+    warning_count                   = Column(Integer, default=0)
+    info_count                      = Column(Integer, default=0)
+    checked_row_count               = Column(Integer, default=0)
+    summary_json                    = Column(Text)
+    created_at                      = Column(DateTime, default=func.now())
+
+    findings                        = relationship(
+        "DataQualityFinding",
+        back_populates="run",
+        cascade="all, delete-orphan",
+    )
+
+
+class DataQualityFinding(Base):
+    """Individual data quality issue or informational finding."""
+    __tablename__ = "data_quality_findings"
+    __table_args__ = (
+        Index("ix_data_quality_finding_run", "run_id"),
+        Index("ix_data_quality_finding_target", "target"),
+        Index("ix_data_quality_finding_severity", "severity"),
+        Index("ix_data_quality_finding_check", "check_name"),
+    )
+
+    id                              = Column(Integer, primary_key=True, autoincrement=True)
+    run_id                          = Column(Integer, ForeignKey("data_quality_runs.id", ondelete="CASCADE"), nullable=False)
+    target                          = Column(String(100), nullable=False)
+    severity                        = Column(String(50), nullable=False)
+    check_name                      = Column(String(100), nullable=False)
+    entity_type                     = Column(String(100))
+    entity_id                       = Column(Integer)
+    field_name                      = Column(String(255))
+    observed_value                  = Column(Text)
+    message                         = Column(Text)
+    created_at                      = Column(DateTime, default=func.now())
+
+    run                             = relationship("DataQualityRun", back_populates="findings")
 
 
 def create_tables():

@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from database.db_manager import get_session
 from database.schema import NicheMarket, PainPoint, Vendor, VendorPainPointMap
+from agents.data_quality_agent import run_data_quality
 
 
 def _parts(*values) -> str:
@@ -149,19 +150,51 @@ def save_sales_csv(rows: list, output_path: str = None) -> str:
     return output_path
 
 
+def annotate_rows_with_dq(rows: list, dq_summary: dict = None) -> list:
+    if not dq_summary:
+        return rows
+    return [
+        {
+            **row,
+            "dq_status": dq_summary["status"],
+            "dq_run_id": dq_summary["run_id"],
+            "dq_quality_score": dq_summary["quality_score"],
+        }
+        for row in rows
+    ]
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export Loopa sales-ready CSV.")
     parser.add_argument("--limit", type=int, default=100, help="Maximum number of niches to export")
     parser.add_argument("--min-tier", type=int, default=2, choices=[1, 2, 3], help="Lowest priority tier to include")
     parser.add_argument("--include-weak", action="store_true", help="Include weak vendor matches")
     parser.add_argument("--output", help="Output CSV path")
+    parser.add_argument("--skip-dq", action="store_true", help="Skip core Data Quality gate")
     args = parser.parse_args()
+
+    dq_summary = None
+    if args.skip_dq:
+        print("Core Data Quality gate skipped by request.")
+    else:
+        dq_summary = run_data_quality("core")
+        print(
+            "Core Data Quality: "
+            f"{dq_summary['status']} "
+            f"(run_id={dq_summary['run_id']}, "
+            f"critical={dq_summary['critical_count']}, "
+            f"warnings={dq_summary['warning_count']})"
+        )
+        if dq_summary["critical_count"]:
+            print("Sales export blocked because Data Quality found critical issues.")
+            raise SystemExit(1)
 
     sales_rows = build_sales_rows(
         limit=args.limit,
         min_tier=args.min_tier,
         include_weak=args.include_weak,
     )
+    sales_rows = annotate_rows_with_dq(sales_rows, dq_summary)
     path = save_sales_csv(sales_rows, args.output)
     print(f"Sales export saved: {path}")
     print(f"Rows: {len(sales_rows)}")
