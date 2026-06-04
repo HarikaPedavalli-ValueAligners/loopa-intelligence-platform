@@ -184,6 +184,90 @@ def _run_to_dict(run: IntelligenceRun) -> dict:
     }
 
 
+def sync_niches(niches: list) -> dict:
+    """
+    POST /api/sync/niches - called by the MVP /loopa/sync route (PRD 3.10).
+    Accepts a list of Tier-1 niche selections from sm_hub, looks up matching
+    Loopa niches by NAICS code or industry name, and returns the top vendor
+    matches for each matched niche's pain points.
+
+    Input:  { niches: [{ domain, company_name, industry, lead_score }] }
+    Output: { synced: int, matches: [{ domain, vendor_name, category,
+                                        confidence, pain_points }] }
+    """
+    if not niches:
+        return {"synced": 0, "matches": []}
+
+    session = get_session()
+    try:
+        results = []
+        seen_vendor_names = set()
+
+        for niche_req in niches:
+            industry = (niche_req.get("industry") or "").strip()
+            domain = niche_req.get("domain") or ""
+
+            # Match Loopa niches by industry name (priority_tier is Loopa-internal;
+            # the incoming Tier-1 classification comes from the MVP's NicheRadar).
+            from sqlalchemy import or_
+            q = session.query(NicheMarket).filter(
+                NicheMarket.priority_score.isnot(None)
+            )
+            if industry:
+                q = q.filter(
+                    or_(
+                        NicheMarket.industry.ilike(f"%{industry}%"),
+                        NicheMarket.sub_industry.ilike(f"%{industry}%"),
+                    )
+                )
+            matched_niches = q.order_by(NicheMarket.priority_score.desc()).limit(3).all()
+
+            for loopa_niche in matched_niches:
+                # Get top vendor matches via pain points for this niche
+                pain_points = (
+                    session.query(PainPoint)
+                    .filter_by(niche_market_id=loopa_niche.id)
+                    .order_by(PainPoint.pain_point_rank.asc())
+                    .limit(5)
+                    .all()
+                )
+
+                pain_point_names = [pp.pain_point_name for pp in pain_points]
+
+                for pain_point in pain_points:
+                    vendor_maps = (
+                        session.query(VendorPainPointMap, Vendor)
+                        .join(Vendor, Vendor.id == VendorPainPointMap.vendor_id)
+                        .filter(
+                            VendorPainPointMap.pain_point_id == pain_point.id,
+                            VendorPainPointMap.is_fallback == False,
+                        )
+                        .order_by(VendorPainPointMap.match_score.desc())
+                        .limit(2)
+                        .all()
+                    )
+
+                    for vm, vendor in vendor_maps:
+                        key = (domain, vendor.vendor_name)
+                        if key in seen_vendor_names:
+                            continue
+                        seen_vendor_names.add(key)
+                        results.append({
+                            "domain": domain,
+                            "vendor_name": vendor.vendor_name,
+                            "category": pain_point.cyber_category or "Cybersecurity",
+                            "confidence": vm.confidence_label or "medium",
+                            "match_score": float(vm.match_score) if vm.match_score else 0.0,
+                            "pain_points": pain_point_names,
+                            "niche_name": loopa_niche.niche_name,
+                            "niche_tier": loopa_niche.priority_tier,
+                        })
+
+        return {"synced": len(niches), "matches": results}
+    finally:
+        session.close()
+
+
 class LoopaHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -206,6 +290,23 @@ class LoopaHandler(BaseHTTPRequestHandler):
             elif parsed.path.startswith("/runs/") and parsed.path.endswith("/items"):
                 run_id = int(parsed.path.split("/")[2])
                 self._send(run_items(run_id, limit=int(params.get("limit", [100])[0])))
+            else:
+                self._send({"error": "not_found"}, status=404)
+        except Exception as exc:
+            self._send({"error": str(exc)}, status=500)
+
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+            body = json.loads(self.rfile.read(length)) if length else {}
+
+            if parsed.path == "/api/sync/niches":
+                niches = body.get("niches", [])
+                if not isinstance(niches, list):
+                    self._send({"error": "niches must be a list"}, status=400)
+                    return
+                self._send(sync_niches(niches))
             else:
                 self._send({"error": "not_found"}, status=404)
         except Exception as exc:
