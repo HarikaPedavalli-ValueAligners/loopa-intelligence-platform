@@ -255,4 +255,86 @@ f"mssql+pyodbc://{username}:{password}@{server}/{database}"
 
 https://github.com/HarikaPedavalli-ValueAligners/loopa-intelligence-platform
 
+---
+
+## 14. SaaS Wrapper (Multi-Tenant API)
+
+The `saas/` package wraps this platform as a sellable, multi-tenant SaaS. It is
+fully additive: the existing scripts and weekly pipeline behave exactly as
+before. The entire SaaS surface is gated behind a feature flag and is OFF by
+default.
+
+### Feature flag
+
+The wrapper does nothing unless `LOOPA_SAAS_ENABLED=true`. With the flag off,
+`saas.app:app` is a 404-only app and the legacy platform is untouched.
+
+```
+LOOPA_SAAS_ENABLED=false          # master switch (default OFF)
+LOOPA_SAAS_ADMIN_TOKEN=<random>   # required to enable admin endpoints
+LOOPA_SAAS_DEFAULT_PLAN=free      # plan for newly provisioned tenants
+LOOPA_SAAS_FREE_RATE_PER_MIN=     # optional free-tier rate override
+LOOPA_SAAS_DB_PATH=               # optional path for the saas control-plane DB
+```
+
+See `.env.example`. The SaaS control plane uses its own SQLite database
+(`loopa_saas.db` by default), kept SEPARATE from `loopa_intelligence.db`, so the
+existing catalog data is never modified.
+
+### What it adds
+
+- Tenant identity (`saas_tenants`) with per-tenant API keys (`saas_api_keys`,
+  hash-only storage, plaintext shown once at mint time).
+- Per-tenant data isolation: each tenant sees only the niche markets granted to
+  it (allow-list in `saas_tenant_niche`, or `full_catalog=True`). Pain points and
+  vendor matches are re-anchored to that allow-list, so there is no way to pivot
+  into another tenant's data.
+- Subscription tiers (free / pro / enterprise) with feature entitlements and
+  quotas (`saas/plans.py`). Unknown plans fall back to free (least privilege).
+- A versioned public API under `/api/v1` with bearer-key auth and per-tenant
+  rate limiting.
+
+### Plan tiers
+
+| Plan       | Niches/req | Total niches | Rate/min | Vendor matches | Full report | Export |
+|------------|-----------|--------------|----------|----------------|-------------|--------|
+| free       | 5         | 10           | 30       | no             | no          | no     |
+| pro        | 50        | 500          | 120      | yes            | yes         | no     |
+| enterprise | 200       | unlimited    | 600      | yes            | yes         | yes    |
+
+### Run the API locally
+
+```
+pip install -r requirements.txt
+LOOPA_SAAS_ENABLED=true LOOPA_SAAS_ADMIN_TOKEN=dev-token \
+  python -m uvicorn saas.app:app --reload
+```
+
+Then provision a tenant (admin token required):
+
+```
+# create a tenant
+curl -XPOST localhost:8000/api/v1/admin/tenants \
+  -H "Authorization: Bearer dev-token" \
+  -d '{"name":"Acme","plan":"pro","full_catalog":true}'
+
+# mint an API key (plaintext returned once)
+curl -XPOST localhost:8000/api/v1/admin/tenants/<tenant_id>/keys \
+  -H "Authorization: Bearer dev-token"
+
+# call the tenant API
+curl localhost:8000/api/v1/niches -H "Authorization: Bearer lpk_..."
+```
+
+Interactive docs: `/api/v1/docs`.
+
+### Tests
+
+```
+python -m pytest tests/ -q
+```
+
+Tests run entirely against temporary databases with no real secrets, and cover
+tenant isolation, entitlement gating, auth, rate limiting, and the feature flag.
+
 
