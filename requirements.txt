@@ -1,0 +1,20 @@
+# Loopa Intelligence Platform - Python dependencies.
+#
+# Existing platform (data + scheduling + AI research):
+SQLAlchemy>=2.0,<3.0
+pandas>=2.0
+openpyxl>=3.1
+schedule>=1.2
+groq>=1.0
+python-dotenv>=1.0
+
+# SaaS wrapper (versioned API). The API only runs when LOOPA_SAAS_ENABLED=true.
+fastapi>=0.110
+# ASGI server for running the SaaS API (saas.app:app). Optional for tests,
+# which use Starlette's in-process TestClient.
+uvicorn>=0.29
+
+# Tests
+pytest>=8.0
+pytest-asyncio>=0.23
+httpx>=0.27
